@@ -1,0 +1,248 @@
+<project name="professional.weblogic.ch11.examples.samlsso" basedir="." default="build">
+
+	<taskdef name="wlserver" classname="weblogic.ant.taskdefs.management.WLServer"/>
+	<taskdef name="wldeploy" classname="weblogic.ant.taskdefs.management.WLDeploy"/>
+	<taskdef name="clientgen"
+	      classname="weblogic.wsee.tools.anttasks.ClientGenTask" />
+	
+	<property environment="env"/>
+	<property file="local.properties"/>
+	
+	<path id="examples.class.path">
+			<pathelement path="build/bin"/>
+			<pathelement path="${env.BEA_HOME}/wlserver_10.3/server/lib/weblogic.jar"/>
+		</path>
+	
+	<target name="clean">
+
+		<delete dir="SAMLSPWebApp/WebContent/WEB-INF/classes" failonerror="no"/>
+		<delete dir="SAMLSSOWebApp/WebContent/WEB-INF/classes" failonerror="no"/>
+		
+	</target>
+	
+	<target name="build">
+		
+		
+		
+		
+		<mkdir dir="SAMLSPWebApp/WebContent/WEB-INF/classes"/>
+					
+				<javac destdir="SAMLSPWebApp/WebContent/WEB-INF/classes" srcdir="src" includes="**/webservice/saml/**">
+				</javac>
+		
+		<antcall target="deploy-samlSP-webapp-to-DomainB"></antcall>
+		
+		
+		
+		<mkdir dir="SAMLSSOWebApp/WebContent/WEB-INF/classes"/>
+				
+		<clientgen
+		    wsdl="http://${domainB.name}.bigrez.com:${domainB.port.http}/SAMLSPWebApp/ExampleWebServiceService?WSDL"
+		    destDir="SAMLSSOWebApp/WebContent/WEB-INF/classes"
+		    packageName="professional.weblogic.ch11.examples.client.webservice.saml"
+		    serviceName="ExampleWebServiceService" type="JAXWS"/>
+					
+				<javac destdir="SAMLSSOWebApp/WebContent/WEB-INF/classes" srcdir="src" includes="**/servlet/saml/**">
+				</javac>
+		
+		<antcall target="deploy-samlSSO-webapp-to-DomainA"></antcall>
+	</target>
+	
+	
+	
+	
+	<target name="deploy-samlSSO-webapp-to-DomainA">
+
+		<wldeploy
+										action="deploy" verbose="false" debug="false"
+										name="CH11SAMLSSOWebApp" source="SAMLSSOWebApp/WebContent"
+										user="weblogic" password="welcome1"
+										adminurl="t3://localhost:${domainA.port.http}" targets="myserver" />
+			
+
+		
+
+	</target>
+	
+	
+	<target name="deploy-samlSP-webapp-to-DomainB">
+
+			<wldeploy
+											action="deploy" verbose="false" debug="false"
+											name="CH11SAMLSPWebApp" source="SAMLSPWebApp/WebContent"
+											user="weblogic" password="welcome1"
+											adminurl="t3://localhost:${domainB.port.http}" targets="myserver" />
+				
+
+			
+
+		</target>
+	
+
+	
+	<target name="configure-domain-A">
+	
+		<antcall target="create-saml-cm-domainA-defaultRealm"/>
+		
+		<wlst filename="${scripts.dir}/SAML/createPKICM.py" arguments="weblogic welcome1 t3://localhost:${domainA.port.http} myrealm ${domainA.name}.jks password"/>
+	
+		<wlserver dir="build/domains/${domainA.name}" 
+	    				    		username="weblogic" password="welcome1" host="localhost" port="${domainA.port.http}" action="reboot" forceshutdown="true"/>
+		
+		<antcall target="configure-federation-services-domainA"></antcall>
+
+		<antcall target="create-idp-domainA"></antcall>
+		
+		<antcall target="publish-metadata">
+			<param name="domain_name" value="${domainA.name}"/>
+			<param name="domain_port" value="${domainA.port.http}"/>
+		</antcall>
+		
+	</target>
+	
+	<target name="create-idp-domainA">
+	
+		<antcall target="create-idp">
+			<param name="domain_port" value="${domainA.port.http}"/>
+		</antcall>
+	
+	</target>
+	
+	<target name="configure-federation-services-domainA">
+		
+		<antcall target="configure-federation-services">
+			<param name="domain_name" value="${domainA.name}"/>
+			<param name="domain_port" value="${domainA.port.http}"/>
+		</antcall>
+		
+	</target>
+
+	<target name="create-saml-cm-domainA-defaultRealm">
+		<antcall target="create-saml-cm-domainA">
+			<param name="realm_name" value="myrealm"/>
+		</antcall>
+	</target>
+	<target name="create-saml-cm-domainA">
+		<antcall target="create-saml-cm">
+			<param name="domain_name" value="${domainA.name}"/>
+			<param name="domain_port" value="${domainA.port.http}"/>
+		</antcall>
+	</target>
+	
+	
+	
+	
+
+	<target name="configure-domain-B">
+	
+		<antcall target="create-saml-ia-domainB-defaultRealm"></antcall>
+	
+		<wlserver dir="build/domains/${domainB.name}" 
+	    				    		username="weblogic" password="welcome1" host="localhost" port="${domainB.port.http}" action="reboot" forceshutdown="true"/>
+		<antcall target="configure-federation-services-domainB"></antcall>
+
+		<antcall target="create-sp-domainB"></antcall>
+		
+		<antcall target="publish-metadata">
+			<param name="domain_name" value="${domainB.name}"/>
+			<param name="domain_port" value="${domainB.port.http}"/>
+		</antcall>
+		
+	
+	</target>
+	
+	<target name="create-sp-domainB">
+	
+		<antcall target="create-sp">
+			<param name="domain_port" value="${domainB.port.http}"/>
+		</antcall>
+	
+	</target>
+	
+	<target name="configure-federation-services-domainB">
+		
+		<antcall target="configure-federation-services">
+			<param name="domain_name" value="${domainB.name}"/>
+			<param name="domain_port" value="${domainB.port.http}"/>
+		</antcall>
+		
+	</target>
+
+	<target name="create-saml-ia-domainB-defaultRealm">
+		<antcall target="create-saml-ia-domainB">
+			<param name="realm_name" value="myrealm"/>
+		</antcall>
+	</target>
+	<target name="create-saml-ia-domainB">
+		<antcall target="create-saml-ia">
+			<param name="domain_port" value="${domainB.port.http}"/>
+		</antcall>
+	</target>
+			
+	<target name="configure-federation-services">
+	
+		<wlst filename="${scripts.dir}/SAML/createFederationServices.py" 
+			arguments="weblogic welcome1 t3://localhost:${domain_port} ${saml.OrganizationName} ${saml.ContactPersonType} ${saml.OrganizationURL} ${saml.ContactPersonGivenName} ${saml.ContactPersonCompany} http://${domain_name}.bigrez.com:${domain_port}/saml2 ${saml.ContactPersonEmailAddress} ${saml.ContactPersonSurName} ${saml.ContactPersonTelephoneNumber} ${domain_name}"/>
+	</target>
+	
+	<target name="create-saml-ia">
+
+		<wlst filename="${scripts.dir}/SAML/createSAMLIA.py"
+			  arguments="weblogic welcome1 t3://localhost:${domain_port} ${realm_name}"/>
+
+	</target>
+	
+	<target name="create-saml-cm">
+
+			<wlst filename="${scripts.dir}/SAML/createSAMLCM.py"
+				  arguments="weblogic welcome1 t3://localhost:${domain_port} ${realm_name} ${domain_name}"/>
+
+		</target>
+	
+	<target name="create-sp">
+	
+		<wlst filename="${scripts.dir}/SAML/createSP.py"
+					  arguments="weblogic welcome1 t3://localhost:${domain_port}"/>
+
+	
+	</target>
+	
+	<target name="create-idp">
+		
+			<wlst filename="${scripts.dir}/SAML/createIDP.py"
+						  arguments="weblogic welcome1 t3://localhost:${domain_port}"/>
+
+		
+		</target>
+	
+	
+	<target name="publish-metadata">
+	
+		<wlst filename="${scripts.dir}/SAML/publishMetaData.py"
+			arguments="weblogic welcome1 t3://localhost:${domain_port} ${basedir}/build/domains/${domain_name}/${domain_name}_metadata.xml"/>
+	
+	</target>
+	
+	
+	<target name="configure-idp-partner-on-DomainB">
+	
+		<wlst filename="${scripts.dir}/SAML/createWebSSOIdPPartner.py"
+					arguments="weblogic welcome1 t3://localhost:${domainB.port.http} myrealm ${basedir}/build/domains/${domainA.name}/${domainA.name}_metadata.xml ${domainA.name}"/>
+		
+		<wlst filename="${scripts.dir}/SAML/createWSSIdpPartner.py" arguments="weblogic welcome1 t3://localhost:${domainB.port.http} myrealm ${domainA.name}"/>
+	
+	</target>
+	
+	<target name="configure-sp-partner-on-DomainA">
+		
+			<wlst filename="${scripts.dir}/SAML/createWebSSOSPPartner.py"
+						arguments="weblogic welcome1 t3://localhost:${domainA.port.http} myrealm ${basedir}/build/domains/${domainB.name}/${domainB.name}_metadata.xml ${domainB.name}"/>
+			
+		
+			<wlst filename="${scripts.dir}/SAML/createWSSPPartner.py"
+								arguments="weblogic welcome1 t3://localhost:${domainA.port.http} myrealm ${domainA.name} password ${domainB.name} http ${domainB.name}.bigrez.com ${domainB.port.http}"/>
+					
+		</target>
+	
+
+</project>

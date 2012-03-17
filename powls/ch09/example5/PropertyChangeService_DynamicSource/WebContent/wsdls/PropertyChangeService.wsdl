@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PropertyChangeService" targetNamespace="http://www.wrox.com/professional-weblogic/PropertyChangeService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.wrox.com/professional-weblogic/PropertyChangeService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:prpty="http://www.wrox.com/professional-weblogic/PropertyChangeData">
+	<!-- IMPORTED XSD -->
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://www.wrox.com/professional-weblogic/PropertyChangeData" schemaLocation="../schemas/PropertyChangeData.xsd"/>		
+		</schema>
+	</types>
+	
+	<!-- REQUEST/RESPONSE MESSAGE FORMATS -->
+	<message name="PropertyChangeInfo">
+		<part element="prpty:PropertyChangeInfo" name="parameters"/>
+	</message>
+	<message name="PropertyChangeAcknowledgement">
+		<part element="prpty:PropertyChangeAcknowledgement" name="parameters"/>
+	</message>
+
+	<!-- DEFINITION OF THE SERVICE AND ITS OPERATION -->
+	<portType name="PropertyChangeService">
+		<operation name="ChangePropertyDetails">
+			<input message="tns:PropertyChangeInfo"/>
+			<output message="tns:PropertyChangeAcknowledgement"/>
+		</operation>
+	</portType>
+
+	<!--  BIND SERICE OPERATIONS TO USE SOAP-HTTP WITH DOCUMENT-LITERAL STYLE -->
+	<binding name="PropertyChangeServiceSOAP" type="tns:PropertyChangeService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ChangePropertyDetails">
+			<soap:operation soapAction="http://www.wrox.com/professional-weblogic/PropertyChangeService/ChangePropertyDetails"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+
+	<!-- DEFINITION OF FOR SERICE'S ENDPONT URL -->
+	<service name="PropertyChangeService">
+		<port binding="tns:PropertyChangeServiceSOAP" name="PropertyChangeServiceSOAP">
+			<soap:address location="http://localhost:7001/PropertyChangeService_DynamicSource/PropertyChangeService"/>
+		</port>
+	</service>
+</definitions>

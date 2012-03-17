@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="compile" name="Chapter 12 Examples">
+
+    <property environment="env"/>
+    <property file="etc/local.properties"/>
+
+    <!-- set global properties for this build -->
+    <property name="src" value="${basedir}/src"/>
+    <property name="classes" value="${basedir}/classes"/>
+
+    <property name="ex2Log.filename" value="ch12Example2Test.log"/>
+
+    <!-- Set up the development classpath -->
+    <path id="dev.classpath">
+        <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
+        <pathelement location="${env.WL_HOME}/server/lib/weblogic.jar"/>
+        <pathelement location="${classes}"/>
+    </path>
+	
+    <target name="clean">
+        <delete includeEmptyDirs="true">
+            <fileset dir="${classes}" includes="**/*"/>
+            <fileset dir="${basedir}" includes="${ex2Log.filename}"/>
+        </delete>
+    </target>
+		
+    <target name="compile">
+        <javac deprecation="true" 
+               classpathref="dev.classpath" 
+               destdir="${classes}" 
+               srcdir="${src}\example1">
+            <include name="*.java"/>
+        </javac>
+        <java classpathref="dev.classpath"
+              classname="weblogic.i18ngen"
+              fork="yes">
+            <arg value="-build"/>
+            <arg value="-d"/>
+            <arg value="${classes}"/>
+            <arg value="${src}/example2/MessageCatalog/BigRezCatalog.xml"/>
+        </java>
+        <java classpathref="dev.classpath"
+              classname="weblogic.l10ngen"
+              fork="yes">
+            <arg value="-d"/>
+            <arg value="${classes}"/>
+            <arg value="${src}/example2/MessageCatalog/BigRezCatalog.xml"/>
+        </java>
+        <javac deprecation="true" 
+               classpathref="dev.classpath" 
+               destdir="${classes}" 
+               srcdir="${src}/example2">
+            <include name="*.java"/>
+        </javac>
+        <javac deprecation="true"
+               classpathref="dev.classpath" 
+               destdir="${classes}" 
+               srcdir="${src}/example3">
+            <include name="*.java"/>
+        </javac>
+    </target>
+
+    <target name="run">
+        <java classpathref="dev.classpath"
+              classname="professional.weblogic.ch12.example2.CatalogLogTest"
+              fork="yes">
+            <arg value="${ex2Log.filename}"/>
+        </java>
+    </target>	
+</project>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale_message_catalog PUBLIC "weblogic-locale-message-catalog-dtd" "http://www.bea.com/servers/wls810/dtd/l10n_msgcat.dtd">
+<locale_message_catalog
+   version="1.0"
+   l10n_package="com.bigrez.logging.l10n"
+   >
+
+   <!--  -->
+   <logmessage
+      messageid="500001"
+      datelastchanged="1244673196348"
+      >
+      <messagebody>
+         ฟหกดฟหกดฟกรีด้แีน้แืแืรย่ด
+      </messagebody>
+      <messagedetail>
+         ยำยนด่แ่นยทแนย่ย
+      </messagedetail>
+      <cause>
+         
+      </cause>
+      <action>
+         
+      </action>
+   </logmessage>
+
+   <!--  กดสา้ฟหยืแ-->
+   <logmessage
+      messageid="500004"
+      datelastchanged="1244673244660"
+      >
+      <messagebody>
+         ฟสืกหดร: {0}
+      </messagebody>
+      <messagedetail>
+         ฟหย่ทยไท: {0}
+      </messagedetail>
+      <cause>
+         หืแวืรรรืื: {0}
+      </cause>
+      <action>
+         ฟหแมบยแง: {0}
+      </action>
+   </logmessage>
+
+   <!--  -->
+   <logmessage
+      messageid="500003"
+      datelastchanged="1244673276035"
+      >
+      <messagebody>
+         วก่่ฟทแยน่แยน่ขฮททอ่น่าอยบ: {0}
+      </messagebody>
+      <messagedetail>
+         
+      </messagedetail>
+      <cause>
+         
+      </cause>
+      <action>
+         
+      </action>
+   </logmessage>
+</locale_message_catalog>

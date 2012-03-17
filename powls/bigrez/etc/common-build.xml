@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Common build functions.
+-->
+
+<project name="common" xmlns:m="m">
+  <!-- The directory that contains this common-build.xml file. This differs
+       from the default directory which is based on the importing file. -->
+  <dirname property="etc.dir" file="${ant.file.common}" />
+
+  <!-- External dependencies. -->
+  <property file="${etc.dir}/local.properties"/>
+
+  <property environment="env"/>
+
+  <!--
+  File locations.
+  -->
+
+  <!-- Standard project source structure. -->
+  <property name="src.dir" location="src" />
+
+  <!-- Managed/working directories. -->
+  <property name="build.dir" location="build/ant" />
+  <property name="classes.dir" location="${build.dir}/classes" />
+  <property name="junit-report.dir" location="${build.dir}/junit" />
+
+  <!-- Output. -->
+  <property name="output.dir" location="output" />
+  <property name="javadoc.dir" location="${output.dir}/javadoc" />
+
+  <!--
+  Paths, patternsets, filesets.
+  -->
+
+  <path id="wls.classpath">
+    <pathelement location="${env.WL_HOME}/server/lib/weblogic.jar" />
+    <pathelement location="${env.WL_HOME}/server/lib/api.jar" />
+  </path>
+
+  <path id="build.classpath">
+    <!-- The project must define additional.classpath. -->
+    <path refid="additional.classpath" />
+
+    <pathelement path="${classes.dir}" />
+    <pathelement path="${junit4.jar}"/>
+    <pathelement path="${mockito.jar}"/>
+    <fileset dir="../ear/EarContent/APP-INF/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <path refid="wls.classpath" />
+  </path>
+
+  <!--
+  Standard public contract. Do not override these.
+  -->
+
+  <target name="clean" description="Clean all output" depends="do.clean" />
+
+  <target name="compile" description="Compile the Java source" depends="do.compile" />
+
+  <target name="test" description="Run tests" depends="compile,do.test" />
+
+  <target name="report" description="Create reports" depends="do.report" />
+
+  <target name="package" description="Package the output" depends="compile,test,do.package" />
+
+  <target name="all" description="Clean, compile, test, package, report" depends="clean, package, report" />
+
+
+  <!--
+  Assertions
+  -->
+
+  <target name="assert.have-wls">
+    <fail message="The WL_HOME environment variable should be set to an appropriate WebLogic home directory - see README.txt.">
+      <condition>
+        <not>
+          <available file="${env.WL_HOME}" />
+        </not>
+      </condition>
+    </fail>
+  </target>
+
+  <target name="assert.have-junit">
+    <fail message="junit4.jar should be set to the location of a JUnit 4 jar file - see README.txt.">
+      <condition>
+        <not>
+          <available file="${junit4.jar}" />
+        </not>
+      </condition>
+    </fail>
+  </target>
+
+  <target name="assert.have-mockito">
+    <fail message="mockito.jar should be set to the location of a Mockito jar file - see README.txt.">
+      <condition>
+        <not>
+          <available file="${mockito.jar}" />
+        </not>
+      </condition>
+    </fail>
+  </target>
+
+  <!--
+  Default target implementations that projects might want to override.
+  -->
+
+  <target name="do.clean">
+    <delete failonerror="false" includeemptydirs="true">
+      <fileset dir="${build.dir}" includes="**/*"/>
+    </delete>
+    <delete failonerror="false">
+      <fileset dir="${output.dir}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <target name="do.compile" depends="assert.have-wls">
+    <mkdir dir="${classes.dir}" />
+
+    <copy todir="${classes.dir}">
+       <fileset dir="${src.dir}" includes="META-INF/*"/>
+    </copy>
+
+    <javac srcdir="${src.dir}" destdir="${classes.dir}"
+           debug="true" deprecation="true" source="1.6"
+           classpathref="build.classpath"/>
+  </target>
+
+  <target name="do.test"/>
+
+  <target name="do.javadoc" depends="assert.have-wls">
+    <m:javadoc />
+  </target>
+
+  <target name="do.report" depends="do.javadoc"/>
+
+  <target name="do.package">
+    <mkdir dir="${output.dir}" />
+
+    <jar destfile="${output.dir}/${ant.project.name}.jar">
+      <fileset dir="${classes.dir}" />
+    </jar>
+  </target>
+
+  <!--
+  Macros.
+  -->
+
+  <macrodef name="javadoc" uri="m">
+    <element name="additional-content" optional="true" />
+
+    <sequential>
+      <mkdir dir="${javadoc.dir}" />
+
+      <javadoc packagenames="*" destdir="${javadoc.dir}" package="true">
+
+        <packageset dir="${src.dir}" />
+        <additional-content />
+
+        <classpath>
+          <path refid="build.classpath" />
+        </classpath>
+      </javadoc>
+    </sequential>
+  </macrodef>
+
+
+  <macrodef name="junit" uri="m">
+    <element name="junit-arguments" optional="true" />
+    <element name="classpath-additions" optional="true" />
+
+    <sequential>
+      <mkdir dir="${junit-report.dir}" />
+
+      <junit printsummary="on" haltonfailure="false"
+             fork="true" forkmode="perBatch">
+        <classpath>
+          <classpath-additions />
+          <path refid="build.classpath" />
+        </classpath>
+
+        <!-- Enable assertions. -->
+        <jvmarg line="-ea" />
+
+        <junit-arguments />
+
+        <batchtest todir="${junit-report.dir}">
+          <formatter type="xml" usefile="true" />
+
+          <fileset dir="${src.dir}">
+            <depend targetdir="${build.dir}">
+              <mapper type="merge" to="${lasttest.timestamp}" />
+            </depend>
+            <include name="**/Test*.java" />
+          </fileset>
+        </batchtest>
+      </junit>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="junit-report" uri="m">
+    <sequential>
+      <property name="report-output.dir" location="${output.dir}/junitreport"/>
+      <mkdir dir="${report-output.dir}"/>
+
+      <junitreport todir="${report-output.dir}">
+        <fileset dir="${junit-report.dir}">
+          <include name="*.xml"/>
+        </fileset>
+        <report todir="${report-output.dir}"/>
+      </junitreport>
+    </sequential>
+  </macrodef>
+
+</project>

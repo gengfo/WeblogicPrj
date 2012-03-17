@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bigrez.com/PropertyInfo" xmlns:tns="http://www.bigrez.com/PropertyInfo" elementFormDefault="qualified">
+    <element name="PropertySearchInfo">
+        <complexType>
+            <sequence>
+                <element name="City" type="tns:City"/>
+                <element name="State" type="tns:PostalCode"></element>
+            </sequence>
+        </complexType>
+    </element>
+	
+    <element name="PropertySearchId">
+        <complexType>
+            <sequence>
+                <element name="Id" type="tns:Id"/>
+            </sequence>
+        </complexType>
+    </element>
+	
+    <element name="PropertiesInfo">
+        <complexType>
+            <sequence>
+                <element name="PropertyInfo" type="tns:PropertyInfo" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="PropertyInfo">
+        <sequence>
+             <element name="Id" type="tns:Id"/>
+             <element name="Description" type="tns:Description"/>
+             <element name="Features" type="tns:Features"/>
+             <element name="Address1" type="tns:Address1"/>
+             <element name="Address2" type="tns:Address2"/>
+             <element name="City" type="tns:City"/>
+             <element name="State" type="tns:State"/>
+             <element name="PostalCode" type="tns:PostalCode"/>
+             <element name="Phone" type="tns:Phone"/>
+         </sequence>
+     </complexType>
+ 	
+     <simpleType name="Id">
+         <restriction base="string"/>
+     </simpleType>
+	
+     <simpleType name="Description">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="Features">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="Address1">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="Address2">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="City">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="State">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="PostalCode">
+         <restriction base="string"/>
+     </simpleType>
+
+     <simpleType name="Phone">
+         <restriction base="string"/>
+     </simpleType>
+</schema>

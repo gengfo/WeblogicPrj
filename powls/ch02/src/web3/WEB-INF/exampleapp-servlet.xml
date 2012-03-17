@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>  
+     <bean id="editPersonController" 
+           class="professional.weblogic.ch02.example3.EditPersonController">
+    	<property name="formView" value="EditPerson.jsp"/>
+    	<property name="successView" value="redirect:showpeople.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="personForm"/>
+    	<property name="commandClass" value="professional.weblogic.ch02.example3.PersonForm"/>   
+        <property name="personForm">
+           <bean class="professional.weblogic.ch02.example3.PersonForm"/>
+        </property>
+        <property name="validator">
+           <bean class="professional.weblogic.ch02.example3.PersonForm"/>
+        </property>
+     </bean>
+     
+     <bean id="showPeopleController" 
+           class="professional.weblogic.ch02.example3.ShowPeopleController">
+    	<property name="formView" value="ShowPeople.jsp"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="personList"/>
+    	<property name="commandClass" value="professional.weblogic.ch02.example3.PersonList"/>   
+        <property name="personList">
+           <bean class="professional.weblogic.ch02.example3.PersonList"/>
+        </property>
+     </bean>
+
+     <!-- you can have more than one handler defined -->
+     <bean id="handlerMapping" 
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+          <property name="mappings">
+          	  <value>
+          	  	/showpeople.do=showPeopleController
+          	    /editperson.do=editPersonController	
+          	  </value>
+          </property>
+     </bean>
+
+  	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    	<property name="basenames">
+    		<list>
+        		<value>errors</value>
+      		</list>
+    	</property>
+	</bean>
+
+</beans>

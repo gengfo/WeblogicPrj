@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.wrox.com/professional-weblogic/PropertyInfo" xmlns:tns="http://www.wrox.com/professional-weblogic/PropertyInfo" elementFormDefault="qualified">
+	<element name="PropertySearchAddress">
+	   	<complexType>
+	    	<sequence>
+	   			<element name="Address1" type="tns:Address1"/>
+	   			<element name="PostalCode" type="tns:PostalCode"></element>
+	   		</sequence>
+	   	</complexType>
+	</element>
+	
+	<element name="PropertySearchId">
+	   	<complexType>
+	    	<sequence>
+	   			<element name="Id" type="tns:Id"/>
+	   		</sequence>
+	   	</complexType>
+	</element>
+	
+	<element name="PropertyInfo">
+			<complexType>
+	   		<sequence>
+	   			<element name="Id" type="tns:Id"/>
+	   			<element name="Description" type="tns:Description"/>
+	    		<element name="Features" type="tns:Features"/>
+	   			<element name="Address1" type="tns:Address1"/>
+	   			<element name="Address2" type="tns:Address2"/>
+	    		<element name="City" type="tns:City"/>
+	   			<element name="State" type="tns:State"/>
+	   			<element name="PostalCode" type="tns:PostalCode"/>
+	   			<element name="Phone" type="tns:Phone"/>
+	   		</sequence>
+	   	</complexType>
+	</element> 
+	
+	<element name="PropertyInfoFault">
+		<complexType>
+			<sequence>
+				<element name="Code" type="string" minOccurs="0"/>
+				<element name="Message" type="string" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<simpleType name="Id">
+	   	<restriction base="int"/>
+	</simpleType>
+	
+	<simpleType name="Description">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="Features">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="Address1">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="Address2">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="City">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="State">
+	  	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="PostalCode">
+	   	<restriction base="string"/>
+	</simpleType>
+	
+	<simpleType name="Phone">
+	   	<restriction base="string"/>
+	</simpleType>
+</schema>

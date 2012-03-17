@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PropertySearchService" targetNamespace="http://www.wrox.com/professional-weblogic/PropertySearchService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.wrox.com/professional-weblogic/PropertySearchService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:prpty="http://www.wrox.com/professional-weblogic/PropertyInfo">
+	<!-- IMPORTED XSDs PLUS SURRONDING OPERATION WRAPPER ELEMENTS-->
+	<types>
+		<schema targetNamespace="http://www.wrox.com/professional-weblogic/PropertySearchService" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+			<import namespace="http://www.wrox.com/professional-weblogic/PropertyInfo" schemaLocation="../schemas/PropertyInfo.xsd"/>
+		
+			<element name="GetPropertyDetailsByAddress">
+				<complexType>
+					<sequence>
+						<element ref="prpty:PropertySearchAddress"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="GetPropertyDetailsByAddressResponse">
+				<complexType>
+					<sequence>
+						<element ref="prpty:PropertyInfo"/>
+					</sequence>
+				</complexType>
+			</element>		
+			<element name="GetPropertyDetailsById">
+				<complexType>
+					<sequence>
+						<element ref="prpty:PropertySearchId"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="GetPropertyDetailsByIdResponse">
+				<complexType>
+					<sequence>
+						<element ref="prpty:PropertyInfo"/>
+					</sequence>
+				</complexType>
+			</element>		
+		</schema>
+	</types>
+	
+	<!-- REQUEST/RESPONSE MESSAGE FORMATS -->
+	<message name="GetPropertyDetailsByAddress">
+		<part element="tns:GetPropertyDetailsByAddress" name="parameters"/>
+	</message>
+	<message name="GetPropertyDetailsByAddressResponse">
+		<part element="tns:GetPropertyDetailsByAddressResponse" name="parameters"/>
+	</message>
+	<message name="GetPropertyDetailsById">
+		<part element="tns:GetPropertyDetailsById" name="parameters"/>
+	</message>
+	<message name="GetPropertyDetailsByIdResponse">
+		<part element="tns:GetPropertyDetailsByIdResponse" name="parameters"/>
+	</message>
+	<message name="PropertyInfoFault">
+		<part element="prpty:PropertyInfoFault" name="fault"/>
+ 	</message>
+
+	<!-- DEFINITION OF THE SERVICE AND ITS OPERATIONS -->
+	<portType name="PropertySearchService">
+		<operation name="GetPropertyDetailsByAddress">
+			<input message="tns:GetPropertyDetailsByAddress"/>
+			<output message="tns:GetPropertyDetailsByAddressResponse"/>
+			<fault message="tns:PropertyInfoFault" name="PropertyInfoFault"/>
+		</operation>
+		<operation name="GetPropertyDetailsById">
+			<input message="tns:GetPropertyDetailsById"/>
+			<output message="tns:GetPropertyDetailsByIdResponse"/>
+			<fault message="tns:PropertyInfoFault" name="PropertyInfoFault"/>
+		</operation>
+	</portType>
+
+	<!--  BIND SERICE OPERATIONS TO USE SOAP-HTTP WITH DOCUMENT-LITERAL STYLE -->
+	<binding name="PropertySearchServiceSOAP" type="tns:PropertySearchService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="GetPropertyDetailsByAddress">
+			<soap:operation soapAction="http://www.wrox.com/professional-weblogic/PropertySearchService/GetPropertyDetailsByAddress"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="PropertyInfoFault">
+				<soap:fault name="PropertyInfoFault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetPropertyDetailsById">
+			<soap:operation soapAction="http://www.wrox.com/professional-weblogic/PropertySearchService/GetPropertyDetailsById"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="PropertyInfoFault">
+				<soap:fault name="PropertyInfoFault" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+
+	<!-- DEFINITION OF SERICE'S ENDPONT URL -->
+	<service name="PropertySearchService">
+		<port binding="tns:PropertySearchServiceSOAP" name="PropertySearchServiceSOAP">
+			<soap:address location="http://www.nonexistent.org/"/>
+		</port>
+	</service>
+</definitions>

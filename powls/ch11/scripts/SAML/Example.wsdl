@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://saml.webservice.server.examples.ch11.weblogic.professional/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://saml.webservice.server.examples.ch11.weblogic.professional/" name="ExampleWebServiceService">
+<wsp:UsingPolicy wssutil:Required="true" />
+<wsp:Policy wssutil:Id="Wssp1.2-2007-Saml2.0-SenderVouches-Wss1.1-Asymmetric.xml">
+<ns1:AsymmetricBinding xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+<wsp:Policy>
+<ns1:InitiatorToken>
+<wsp:Policy>
+<ns1:X509Token ns1:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+<wsp:Policy>
+<ns1:RequireThumbprintReference />
+<ns1:WssX509V3Token11 />
+</wsp:Policy>
+</ns1:X509Token>
+</wsp:Policy>
+</ns1:InitiatorToken>
+<ns1:RecipientToken>
+<wsp:Policy>
+
+<ns1:X509Token ns1:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+<wsp:Policy>
+<ns1:RequireThumbprintReference />
+<ns1:WssX509V3Token11 />
+</wsp:Policy>
+</ns1:X509Token>
+</wsp:Policy>
+</ns1:RecipientToken>
+<ns1:AlgorithmSuite>
+<wsp:Policy>
+<ns1:Basic256 />
+</wsp:Policy>
+</ns1:AlgorithmSuite>
+<ns1:Layout>
+<wsp:Policy>
+<ns1:Lax />
+</wsp:Policy>
+
+</ns1:Layout>
+<ns1:IncludeTimestamp />
+<ns1:ProtectTokens />
+<ns1:OnlySignEntireHeadersAndBody />
+</wsp:Policy>
+</ns1:AsymmetricBinding>
+<ns2:SignedSupportingTokens xmlns:ns2="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+<wsp:Policy>
+<ns2:SamlToken ns2:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+<wsp:Policy>
+<ns2:WssSamlV20Token11 />
+</wsp:Policy>
+</ns2:SamlToken>
+</wsp:Policy>
+</ns2:SignedSupportingTokens>
+<ns3:Wss11 xmlns:ns3="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+<wsp:Policy>
+
+<ns3:MustSupportRefKeyIdentifier />
+<ns3:MustSupportRefIssuerSerial />
+<ns3:MustSupportRefThumbprint />
+<ns3:MustSupportRefEncryptedKey />
+<ns3:RequireSignatureConfirmation />
+</wsp:Policy>
+</ns3:Wss11>
+</wsp:Policy>
+<types>
+<xsd:schema>
+<xsd:import namespace="http://saml.webservice.server.examples.ch11.weblogic.professional/" schemaLocation="http://localhost:9011/SAMLSPWebApp/ExampleWebServiceService?xsd=1" />
+</xsd:schema>
+</types>
+<message name="hello">
+<part name="parameters" element="tns:hello" />
+</message>
+<message name="helloResponse">
+
+<part name="parameters" element="tns:helloResponse" />
+</message>
+<portType name="ExampleWebService">
+<operation name="hello">
+<input message="tns:hello" />
+<output message="tns:helloResponse" />
+</operation>
+</portType>
+<binding name="ExampleWebServicePortBinding" type="tns:ExampleWebService">
+<wsp:PolicyReference URI="#Wssp1.2-2007-Saml2.0-SenderVouches-Wss1.1-Asymmetric.xml" />
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+<operation name="hello">
+<soap:operation soapAction="" />
+<input>
+<soap:body use="literal" />
+</input>
+<output>
+
+<soap:body use="literal" />
+</output>
+</operation>
+</binding>
+<service name="ExampleWebServiceService">
+<port name="ExampleWebServicePort" binding="tns:ExampleWebServicePortBinding">
+<soap:address location="http://localhost:9011/SAMLSPWebApp/ExampleWebServiceService" />
+</port>
+</service>
+</definitions>

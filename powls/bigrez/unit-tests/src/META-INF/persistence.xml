@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+  <persistence-unit name="TestPU">
+    <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+    <!--  <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+
+    <class>com.bigrez.jpa.DomainEntity</class>
+    <class>com.bigrez.jpa.ValueObject</class>
+    <class>com.bigrez.domain.GuestProfile</class>
+    <class>com.bigrez.domain.Inventory</class>
+    <class>com.bigrez.domain.Offer</class>
+    <class>com.bigrez.domain.Property</class>
+    <class>com.bigrez.domain.Rate</class>
+    <class>com.bigrez.domain.Reservation</class>
+    <class>com.bigrez.domain.ReservationRate</class>
+    <class>com.bigrez.domain.RoomType</class>
+    <class>com.bigrez.domain.Address</class>
+    <class>com.bigrez.domain.CardDetails</class>
+    <class>com.bigrez.domain.Money</class>
+
+    <properties>
+    <!--
+    The Ant build file sets these properties using system properties. Values
+    set in persistence.xml take precedence over system properties, so the
+    values here are commented out by default.
+    We've provided both OpenJPA and EclipseLink properties. The set that is used
+    will depend on the provider set above.
+    -->
+
+<!--
+      <property name="openjpa.ConnectionDriverName" value="oracle.jdbc.OracleDriver"/>
+      <property name="openjpa.ConnectionURL" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+      <property name="openjpa.ConnectionUserName" value="bigrez"/>
+      <property name="openjpa.ConnectionPassword" value="password"/>
+      <property name="openjpa.Log" value="DefaultLevel=TRACE"/>
+-->
+
+<!--
+      <property name="eclipselink.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="eclipselink.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+      <property name="eclipselink.jdbc.user" value="bigrez"/>
+      <property name="eclipselink.jdbc.password" value="password"/>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    -->
+    </properties>
+  </persistence-unit>
+</persistence>

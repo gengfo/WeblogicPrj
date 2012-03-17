@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app xmlns:wls="http://www.bea.com/ns/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://www.bea.com/ns/weblogic/weblogic-web-app http://www.bea.com/ns/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+    <wls:weblogic-version>10.3</wls:weblogic-version>
+    <wls:security-role-assignment>
+        <wls:role-name>AllUsers</wls:role-name>
+        <wls:principal-name>everyone</wls:principal-name>
+    </wls:security-role-assignment>
+    <wls:security-role-assignment>
+        <wls:role-name>SpecialRole</wls:role-name>
+        <wls:principal-name>someotheruser</wls:principal-name>
+    </wls:security-role-assignment>
+    
+    <wls:run-as-role-assignment>
+		<wls:role-name>ProtectedAdminRole</wls:role-name>
+		<wls:run-as-principal-name>weblogic</wls:run-as-principal-name>
+	</wls:run-as-role-assignment>
+    
+    <wls:ejb-reference-description>
+    	<wls:ejb-ref-name>example</wls:ejb-ref-name>
+    	<wls:jndi-name>ch11.example.ejb#professional.weblogic.ch11.examples.client.ejb.IExampleEJB</wls:jndi-name>
+    </wls:ejb-reference-description>
+    
+    <wls:context-root>WebAppSecurityExample</wls:context-root>
+</wls:weblogic-web-app>

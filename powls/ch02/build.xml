@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="deploy" name="Chapter 2 Examples">
+    
+    <property environment="env"/>
+    <property file="etc/local.properties"/>
+    
+    <!-- set global properties for this build -->
+    <property name="src" value="${basedir}/src"/>
+    <property name="lib" value="${basedir}/lib"/>
+    <property name="srcjava1" value="${src}/java/webapp1"/>
+    <property name="srcjava2" value="${src}/java/webapp2"/>
+    <property name="srcjava3" value="${src}/java/webapp3"/>
+    <property name="srcweb1" value="${src}/web1"/>
+    <property name="srcweb2" value="${src}/web2"/>
+    <property name="srcweb3" value="${src}/web3"/>
+    <property name="deploy.dir" value="${env.DOMAIN_HOME}/autodeploy"/>
+    <property name="webapp1.dir" value="${deploy.dir}/webapp1"/>
+    <property name="webapp2.dir" value="${deploy.dir}/webapp2"/>
+    <property name="webapp3.dir" value="${deploy.dir}/webapp3"/>
+    
+    <!-- Set up the development classpath -->
+    <path id="dev.classpath">
+        <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
+        <pathelement location="${env.WL_HOME}/server/lib/weblogic.jar"/>
+        <pathelement location="${env.WL_HOME}/server/lib/api.jar"/>
+        <pathelement location="${lib}/spring.jar"/>
+        <pathelement location="${lib}/spring-webmvc.jar"/>
+        <pathelement location="${lib}/struts.jar"/>
+        <pathelement location="${lib}/log4j.jar"/>
+    </path>
+    
+    <target name="clean">
+        <delete includeEmptyDirs="true">
+            <fileset dir="${srcweb1}/WEB-INF/classes"/>
+            <fileset dir="${srcweb2}/WEB-INF/classes"/>
+            <fileset dir="${srcweb3}/WEB-INF/classes"/>
+            <fileset dir="${srcweb1}/WEB-INF/lib"/>
+            <fileset dir="${srcweb2}/WEB-INF/lib"/>
+            <fileset dir="${srcweb3}/WEB-INF/lib"/>
+        </delete>
+    </target>
+    
+    <target name="makeapp">
+        <!-- Make classes directories -->
+        <mkdir dir="${srcweb1}/WEB-INF/classes"/>
+        <mkdir dir="${srcweb2}/WEB-INF/classes"/>
+        <mkdir dir="${srcweb3}/WEB-INF/classes"/>
+        <!-- Make lib directories -->
+        <mkdir dir="${srcweb1}/WEB-INF/lib"/>
+        <mkdir dir="${srcweb2}/WEB-INF/lib"/>
+        <mkdir dir="${srcweb3}/WEB-INF/lib"/>
+        <!-- Move libs from common lib directory into WEB-INF/lib -->
+        <copy todir="${srcweb1}/WEB-INF/lib">
+            <fileset dir="${lib}" includes="log4j.jar"/>
+        </copy>
+        <copy todir="${srcweb2}/WEB-INF/lib">
+            <fileset dir="${lib}" includes="log4j.jar"/>
+            <fileset dir="${lib}" includes="standard.jar"/>
+            <fileset dir="${lib}" includes="jstl.jar"/>
+            <fileset dir="${lib}" includes="commons*.jar"/>
+            <fileset dir="${lib}" includes="struts*.jar"/>
+        </copy>
+        <copy todir="${srcweb3}/WEB-INF/lib">
+            <fileset dir="${lib}" includes="log4j.jar"/>
+            <fileset dir="${lib}" includes="standard.jar"/>
+            <fileset dir="${lib}" includes="jstl.jar"/>
+            <fileset dir="${lib}" includes="commons*.jar"/>
+            <fileset dir="${lib}" includes="spring*.jar"/>
+        </copy>
+    </target>
+                
+    <target name="compile">
+        <javac deprecation="true" classpathref="dev.classpath" 
+            destdir="${srcweb1}/WEB-INF/classes" 
+            srcdir="${srcjava1}">
+            <include name="**/*.java"/>
+        </javac>
+        <javac deprecation="true" classpathref="dev.classpath" 
+            destdir="${srcweb2}/WEB-INF/classes" 
+            srcdir="${srcjava2}">
+            <include name="**/*.java"/>
+        </javac>
+        <javac deprecation="true" classpathref="dev.classpath" 
+            destdir="${srcweb3}/WEB-INF/classes" 
+            srcdir="${srcjava3}">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+    
+    <taskdef name="wlappc" classname="weblogic.ant.taskdefs.j2ee.Appc" 
+        classpathref="dev.classpath"/>
+    
+    <target name="jspc-webapps">
+      <!-- Pre-compile webapp1 JSP pages to src/web1/WEB-INF/classes -->
+      <wlappc source="${srcweb1}" 
+              classpathref="dev.classpath" verbose="true">
+      </wlappc>
+      <!-- Pre-compile webapp2 JSP pages to src/web2/WEB-INF/classes -->
+      <wlappc source="${srcweb2}" 
+                classpathref="dev.classpath" verbose="true">
+      </wlappc>
+      <!-- Pre-compile webapp3 JSP pages to src/web3/WEB-INF/classes -->
+      <wlappc source="${srcweb3}" 
+              classpathref="dev.classpath" verbose="true">
+      </wlappc>
+    </target>
+
+    <target name="deploy" depends="makeapp, compile, jspc-webapps">
+        <!-- Copy all of the web application files to the webapp# -->
+        <copy todir="${webapp1.dir}">
+            <fileset dir="${srcweb1}" includes="**/*.*"/>
+        </copy>
+        <copy todir="${webapp2.dir}">
+            <fileset dir="${srcweb2}" includes="**/*.*" excludes="**/*.properties"/>
+        </copy>
+        <copy todir="${webapp3.dir}">
+            <fileset dir="${srcweb3}" includes="**/*.*" excludes="**/*.properties"/>
+        </copy>
+        <!-- Copy the web application classes to the webapp#/WEB-INF/classes -->
+        <copy todir="${webapp1.dir}/WEB-INF/classes">
+            <fileset dir="${srcweb1}/WEB-INF/classes" includes="*.class" />
+        </copy>
+        <copy todir="${webapp2.dir}/WEB-INF/classes">
+            <fileset dir="${srcweb2}/WEB-INF/classes" includes="*.class" />
+            <fileset dir="${srcweb2}/WEB-INF" includes="*.properties" />
+        </copy>
+        <copy todir="${webapp3.dir}/WEB-INF/classes">
+            <fileset dir="${srcweb3}/WEB-INF/classes" includes="*.class" />
+            <fileset dir="${srcweb3}/WEB-INF" includes="*.properties" />
+        </copy>
+    </target>
+
+    <target name="redeploy">
+        <touch file="${deploy.dir}/webapp1/WEB-INF/REDEPLOY"/>
+        <touch file="${deploy.dir}/webapp2/WEB-INF/REDEPLOY"/>
+        <touch file="${deploy.dir}/webapp3/WEB-INF/REDEPLOY"/>
+    </target>
+
+     <target name="war1" depends="makeapp, compile, jspc-webapps">
+        <war webxml="${srcweb1}/WEB-INF/web.xml"
+             warfile="${src}/webapp1.war">
+          <zipfileset dir="${srcweb1}" excludes="**/*.properties"/>
+        </war>
+     </target>
+     <target name="war2" depends="makeapp, compile, jspc-webapps">
+        <war webxml="${srcweb2}/WEB-INF/web.xml"
+             warfile="${src}/webapp2.war">
+          <zipfileset dir="${srcweb2}" excludes="**/*.properties"/>
+          <zipfileset dir="${srcweb2}/WEB-INF" includes="*.properties" prefix="WEB-INF/classes"/>
+        </war>
+     </target>
+     <target name="war3" depends="makeapp, compile, jspc-webapps">
+        <war webxml="${srcweb3}/WEB-INF/web.xml"
+             warfile="${src}/webapp3.war">
+          <zipfileset dir="${srcweb3}" excludes="**/*.properties"/>
+          <zipfileset dir="${srcweb3}/WEB-INF" includes="*.properties" prefix="WEB-INF/classes"/>
+        </war>
+     </target>
+    
+</project>

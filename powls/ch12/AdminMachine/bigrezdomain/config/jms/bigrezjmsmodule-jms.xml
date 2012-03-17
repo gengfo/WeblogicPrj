@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<weblogic-jms xmlns="http://xmlns.oracle.com/weblogic/weblogic-jms" xmlns:sec="http://xmlns.oracle.com/weblogic/security" xmlns:wls="http://xmlns.oracle.com/weblogic/security/wls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-jms http://xmlns.oracle.com/weblogic/weblogic-jms/1.0/weblogic-jms.xsd">
+  <connection-factory name="BigRezConnectionFactory">
+    <default-targeting-enabled>true</default-targeting-enabled>
+    <jndi-name>bigrez.jms.connectionfactory</jndi-name>
+    <transaction-params>
+      <transaction-timeout>60</transaction-timeout>
+      <xa-connection-factory-enabled>true</xa-connection-factory-enabled>
+    </transaction-params>
+    <security-params>
+      <attach-jmsx-user-id>false</attach-jmsx-user-id>
+    </security-params>
+  </connection-factory>
+  <uniform-distributed-queue name="BigRezEmailQueue">
+    <default-targeting-enabled>true</default-targeting-enabled>
+    <jndi-name>bigrez.jms.emailQueue</jndi-name>
+    <load-balancing-policy>Round-Robin</load-balancing-policy>
+  </uniform-distributed-queue>
+  <uniform-distributed-queue name="BigRezEmailErrorQueue">
+    <default-targeting-enabled>true</default-targeting-enabled>
+    <jndi-name>bigrez.jms.emailErrorQueue</jndi-name>
+    <load-balancing-policy>Round-Robin</load-balancing-policy>
+  </uniform-distributed-queue>
+</weblogic-jms>

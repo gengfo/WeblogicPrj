@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.bea.com/ns/weblogic/weblogic-web-app
+                                          http://www.oracle.com/technology/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+
+    <wls:session-descriptor>
+        <wls:persistent-store-type>MEMORY</wls:persistent-store-type>
+    </wls:session-descriptor>
+    
+    <wls:jsp-descriptor>
+        <wls:keepgenerated>true</wls:keepgenerated>
+        <wls:page-check-seconds>1</wls:page-check-seconds>
+        <wls:precompile>false</wls:precompile>
+        <wls:precompile-continue>false</wls:precompile-continue>
+        <wls:debug>true</wls:debug>
+    </wls:jsp-descriptor>
+
+</wls:weblogic-web-app>

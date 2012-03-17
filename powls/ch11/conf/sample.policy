@@ -1,0 +1,22 @@
+grant {
+
+	permission javax.security.auth.AuthPermission "createLoginContext.TestApp";
+	permission java.net.SocketPermission "127.0.0.1:7001","connect,resolve";
+	permission java.util.PropertyPermission "*","read,write";
+	permission java.lang.RuntimePermission "enableContextClassLoaderOverride";
+	permission java.lang.RuntimePermission "createClassLoader";
+	permission java.lang.RuntimePermission "getProtectionDomain";
+	permission javax.security.auth.AuthPermission "modifyPrincipals";
+	permission javax.security.auth.AuthPermission "modifyPrivateCredentials";
+	permission javax.security.auth.PrivateCredentialPermission "weblogic.security.auth.login.PasswordCredential weblogic.security.principal.WLSUserImpl \"weblogic\"","read";
+	permission javax.security.auth.AuthPermission "doAs";
+	permission javax.security.auth.AuthPermission "getSubject";
+	
+};
+
+grant principal weblogic.security.principal.WLSUserImpl "josh2" {
+
+	permission book.TestPermission "foo","bar";
+	
+
+};

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+  
+  <definition name="defaultLayout" template="/WEB-INF/jsp/common/DefaultLayout.jsp">
+    <put-attribute name="header" value="/WEB-INF/jsp/common/Header.jsp" />
+    <put-attribute name="topnav" value="/WEB-INF/jsp/common/TopNav.jsp" /> 
+    <put-attribute name="footer" value="/WEB-INF/jsp/common/Footer.jsp"/>
+  </definition>
+   
+  <definition name="login" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/Login.jsp"/>
+  </definition> 
+  
+  <definition name="propertylist" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyList.jsp"/>
+  </definition> 
+  
+  <definition name="propertymain" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyMain.jsp"/>
+  </definition> 
+  
+  <definition name="propertyrooms" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyRooms.jsp"/>
+  </definition> 
+  
+  <definition name="propertyroom" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyRoom.jsp"/>
+  </definition> 
+  
+  <definition name="propertyrates" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyRates.jsp"/>
+  </definition> 
+  
+  <definition name="propertyrate" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyRate.jsp"/>
+  </definition> 
+  
+  <definition name="propertyoffers" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyOffers.jsp"/>
+  </definition> 
+  
+  <definition name="propertyoffer" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyOffer.jsp"/>
+  </definition> 
+      
+  <definition name="propertyavails" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyAvails.jsp"/>
+  </definition> 
+      
+  <definition name="propertyavail" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyAvail.jsp"/>
+  </definition> 
+      
+</tiles-definitions>

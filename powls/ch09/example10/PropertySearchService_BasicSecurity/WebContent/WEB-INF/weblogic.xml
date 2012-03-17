@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/weblogic-web-app">
+    <weblogic-version>10.3</weblogic-version>
+
+	<security-role-assignment>
+		<role-name>Administrators</role-name>
+		<principal-name>Administrators</principal-name>
+	</security-role-assignment>	
+</weblogic-web-app>

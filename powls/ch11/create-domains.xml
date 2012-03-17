@@ -1,0 +1,153 @@
+<project name="professional.weblogic.ch11.examples.domains" basedir="." default="build">
+
+	<taskdef name="wlserver" classname="weblogic.ant.taskdefs.management.WLServer"/>
+	<taskdef name="wlst"
+	   classname="weblogic.ant.taskdefs.management.WLSTTask" />
+
+	<property file="local.properties"/>
+	<target name="build">
+
+		<antcall target="CreateDomain">
+			<param name="domain_name" value="${domainA.name}"/>
+			<param name="domain_http_port" value="${domainA.port.http}"/>
+			<param name="domain_https_port" value="${domainA.port.https}"/>
+			<param name="other_domain_name" value="${domainB.name}"/>
+		</antcall>
+		
+		<antcall target="CreateDomain">
+			<param name="domain_name" value="${domainB.name}"/>
+			<param name="domain_http_port" value="${domainB.port.http}"/>
+			<param name="domain_https_port" value="${domainB.port.https}"/>
+			<param name="other_domain_name" value="${domainA.name}"/>
+		</antcall>
+
+	</target>
+
+	<target name="domain-check">
+	
+		<condition property="domain-exists" value="yes">
+		
+			<available file="build/domains/${domain_name}/config/config.xml"></available>
+			
+		</condition>
+		
+	
+	</target>
+	
+	<target name="CreateDomain" depends="domain-check" unless="domain-exists">
+
+		<mkdir dir="build/domains/${domain_name}"/>
+
+		<copy todir="build/domains/${domain_name}" file="build/keys/${domain_name}.jks"/>
+		<copy todir="build/domains/${domain_name}" file="build/keys/ch11CustomTrust.jks"/>
+
+
+
+		<wlserver dir="build/domains/${domain_name}" port="${domain_http_port}" domainname="ch11_${domain_name}"
+    		generateConfig="true" username="weblogic" password="welcome1" host="localhost" action="start"/>
+
+		
+		<echo message="Server Started.  Configuring SSL and X.509 Identity Assertion"/>
+
+		<wlst filename="${scripts.dir}/setupServerForSSL.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} ${domain_name} ${domain_https_port}"/>
+		<wlst filename="${scripts.dir}/setupServerForX509IA.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} ${domain_name} ${domain_https_port}"/>
+		<wlst filename="${scripts.dir}/addCertificateRegistry.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} myrealm"/>
+		
+		<wlserver dir="build/domains/${domain_name}" port="${domain_http_port}" domainname="ch11_${domain_name}"
+		    		generateConfig="true" username="weblogic" password="welcome1" host="localhost" action="reboot"/>
+		
+		<antcall target="create-users-in-realm">
+			<param name="realm.name" value="myrealm"/>
+		</antcall>
+		
+		<!-- Add Both DomainA and DomainB to the CertificateRegistry for the SAML WebServiceCase -->
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+			arguments="weblogic welcome1 t3://localhost:${domain_http_port} myrealm ${other_domain_name}"/>
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+					arguments="weblogic welcome1 t3://localhost:${domain_http_port} myrealm ${domain_name}"/>
+		
+		<antcall target="create-realm">
+			<param name="realm.name" value="CustomRoles"/>
+		</antcall>
+
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+					arguments="weblogic welcome1 t3://localhost:${domain_http_port} CustomRoles ${other_domain_name}"/>
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+							arguments="weblogic welcome1 t3://localhost:${domain_http_port} CustomRoles ${domain_name}"/>		
+		
+		<antcall target="create-realm">
+			<param name="realm.name" value="CustomRolesAndPolicies"/>
+		</antcall>
+		
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+			arguments="weblogic welcome1 t3://localhost:${domain_http_port} CustomRolesAndPolicies ${other_domain_name}"/>
+		<wlst filename="${scripts.dir}/addCertificateToCertificateRegistry.py" 
+							arguments="weblogic welcome1 t3://localhost:${domain_http_port} CustomRolesAndPolicies ${domain_name}"/>		
+
+	</target>
+
+	<target name="CleanDomain">
+
+		<wlserver dir="build/domains/${domain_name}" port="${domain_http_port}" domainname="ch11_${domain_name}"
+	    		username="weblogic" password="welcome1" host="localhost" action="shutdown"/>
+		
+		<delete dir="build/domains/${domain_name}"/>
+		
+		
+
+	</target>
+	
+	<target name="create-users-in-realm">
+	
+		<wlst filename="${scripts.dir}/importUsers.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} ch11_${domain_name} ${realm.name}"/>
+				
+				<antcall target="ChangeUserPassword">
+					<param name="user" value="someuser"/>
+					<param name="password" value="password"/>
+				</antcall>
+				
+				<antcall target="ChangeUserPassword">
+					<param name="user" value="someotheruser"/>
+					<param name="password" value="password"/>
+				</antcall>
+	
+	
+	</target>
+	
+	<target name="ChangeUserPassword">
+			
+			<wlst filename="${scripts.dir}/changeUserPassword.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} ch11_${domain_name} ${user} ${password} ${realm.name}"/>
+			
+		</target>
+	
+	<target name="create-realm">
+		
+		<wlst filename="${scripts.dir}/createRealm.py" arguments="weblogic welcome1 t3://localhost:${domain_http_port} ${realm.name}"/>
+		
+		<wlserver dir="build/domains/${domain_name}" port="${domain_http_port}" domainname="ch11_${domain_name}"
+			    		generateConfig="true" username="weblogic" password="welcome1" host="localhost" action="reboot"/>
+		
+		
+		
+		<antcall target="create-users-in-realm">
+		</antcall>
+		
+	</target>
+
+	<target name="clean">
+
+		<antcall target="CleanDomain">
+			<param name="domain_name" value="${domainA.name}"/>
+			<param name="domain_http_port" value="${domainA.port.http}"/>
+		</antcall>
+		
+		<antcall target="CleanDomain">
+					<param name="domain_name" value="${domainB.name}"/>
+			<param name="domain_http_port" value="${domainB.port.http}"/>
+				</antcall>
+
+	</target>
+	
+	
+
+</project>

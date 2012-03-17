@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project name="java-project" default="deploy">
+	<property environment="env"/>
+
+	<target name="init">
+		<property file="../../local.properties"/>
+		<property name="SERVICE-NAME" value="PropertyChangeService"/>
+		<property name="SERVICE-IMPL-FOLDER" value="professional/weblogic/ch09/example7/service"/>
+		<property name="SERVICE-IMPL-JAVA-FILE" value="${SERVICE-IMPL-FOLDER}/${SERVICE-NAME}Impl.java"/>
+		<property name="SERVICE-GENERATED-PKG" value="professional.weblogic.ch09.example7.property"/>
+		<basename property="APP-NAME" file="${basedir}"/>
+		<property name="APP-MODULE" value="${APP-NAME}.ear"/>
+		
+		<path id="CLASSPATH">
+			<pathelement path="build/classes"/>
+			<pathelement path="tmp/${SERVICE-NAME}_wsdl.jar"/>
+			<pathelement path="${env.WL_HOME}/server/lib/weblogic.jar"/>
+		</path>
+		
+		<taskdef name="wldeploy" classpathref="CLASSPATH" classname="weblogic.ant.taskdefs.management.WLDeploy"/>
+		<taskdef name="wsdlc" classpathref="CLASSPATH" classname="weblogic.wsee.tools.anttasks.WsdlcTask"/>
+		<taskdef name="jwsc" classpathref="CLASSPATH" classname="weblogic.wsee.tools.anttasks.JwscTask"/>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete>
+			<fileset dir="build" includes="**/*.*"/>
+		</delete>
+		<delete dir="build/classes"/>
+		<delete dir="tmp"/>
+	</target>
+
+	<target name="generate" depends="init">     
+		<delete dir="tmp"/>
+		<wsdlc srcWsdl="WebContent/wsdls/${SERVICE-NAME}.wsdl" destJwsDir="tmp" destImplDir="tmp" packageName="${SERVICE-GENERATED-PKG}" type="JAXWS" debug="on"/>	
+		<echo message="Generated WSDL Java types jar and sample Web Service implementation into tmp directory"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" classpathref="CLASSPATH" debug="on" includes="**/*.java"/>
+	</target>	
+
+	<target name="package" depends="compile">
+		<delete file="build/${APP-MODULE}"/>
+		<mkdir dir="tmp/earcontents"/>
+		<jwsc srcdir="src" destdir="tmp/earcontents" classpathref="CLASSPATH" compiler="extJavac" keepGenerated="false" debug="on">
+			<jws compiledwsdl="tmp/${SERVICE-NAME}_wsdl.jar" file="${SERVICE-IMPL-JAVA-FILE}" contextpath="${APP-NAME}" type="JAXWS"/>
+		</jwsc>
+		<war destfile="tmp/earcontents/${SERVICE-IMPL-FOLDER}/${SERVICE-NAME}Impl.war" update="yes">
+			<classes dir="src">
+				<include name="${SERVICE-IMPL-FOLDER}/handler-chain.xml"/>
+			</classes>
+			<classes dir="build/classes">
+				<include name="${SERVICE-IMPL-FOLDER}/*Handler.class"/>
+			</classes>
+		</war>
+		<ear destfile="build/${APP-MODULE}" appxml="tmp/earcontents/META-INF/application.xml">            
+			<fileset dir="tmp/earcontents">
+				<exclude name="META-INF/application.xml" />
+			</fileset>
+		</ear>		
+		<delete dir="tmp/earcontents"/>
+	</target>
+
+	<target name="deploy" depends="package">
+		<wldeploy action="deploy" upload="true" source="build/${APP-MODULE}" name="${APP-NAME}" user="${weblogic.user}" password="${weblogic.password}" adminurl="${weblogic.adminurl}" verbose="false" debug="false"/> 
+		<delete dir="config"/>
+		<echo message="Deployed Web Service. Path for WSDL and test client access is: http://host:port/${APP-NAME}/${SERVICE-NAME}"/>
+	</target>
+
+	<target name="undeploy" depends="init">
+		<wldeploy action="undeploy" name="${APP-NAME}" user="${weblogic.user}" password="${weblogic.password}" adminurl="${weblogic.adminurl}" verbose="false" debug="false"/>
+	</target>
+</project>

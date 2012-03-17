@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>  
+
+  <!-- EJB References -->
+
+	<bean id="propertyServicesReference" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:/comp/env/ejb/PropertyServices"/>
+    </bean>
+
+	<bean id="reservationServicesReference" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:/comp/env/ejb/ReservationServices"/>
+    </bean>
+
+  <!-- Controllers -->
+        
+     <bean id="loginController" class="com.bigrez.web.SimpleSuccessFailureController">
+     	<property name="successView" value="login"/>
+     </bean>
+          
+	 <bean id="propertyListController" class="com.bigrez.admin.web.PropertyListController">
+		<property name="formView" value="propertylist"/>
+    	<property name="successView" value="propertylist"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyListForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyListForm"/>   
+        <property name="propertyListForm">
+           <bean class="com.bigrez.admin.web.PropertyListForm"/>
+        </property>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+	 </bean>
+	      
+     <bean id="propertyMainController" 
+           class="com.bigrez.admin.web.PropertyMainController">
+    	<property name="formView" value="propertymain"/>
+    	<property name="successView" value="redirect:propertymain.do"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyMainForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyMainForm"/>   
+        <property name="propertyMainForm">
+           <bean class="com.bigrez.admin.web.PropertyMainForm"/>
+        </property>
+        <property name="sessionForm" value="true"/>
+    	<property name="validator"> 
+    	   <bean class="com.bigrez.admin.web.PropertyMainForm"/>
+    	</property>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+     </bean>
+     
+     <bean id="propertyRoomsController" 
+     	   class="com.bigrez.admin.web.PropertyRoomsController">
+    	<property name="formView" value="propertyrooms"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyRoomsForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyRoomsForm"/>   
+        <property name="propertyRoomsForm">
+           <bean class="com.bigrez.admin.web.PropertyRoomsForm"/>
+        </property>
+     </bean>
+     
+     <bean id="propertyRoomController" 
+     	   class="com.bigrez.admin.web.PropertyRoomController">
+    	<property name="formView" value="propertyroom"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="successView" value="redirect:propertyrooms.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyRoomForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyRoomForm"/>   
+        <property name="propertyRoomForm">
+           <bean class="com.bigrez.admin.web.PropertyRoomForm"/>
+        </property>
+        <property name="sessionForm" value="true"/>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+    	<property name="validator"> 
+    	   <bean class="com.bigrez.admin.web.PropertyRoomForm"/>
+    	</property>
+     </bean>
+     
+     <bean id="propertyRatesController" 
+     	   class="com.bigrez.admin.web.PropertyRatesController">
+    	<property name="formView" value="propertyrates"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyRatesForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyRatesForm"/>   
+        <property name="propertyRatesForm">
+           <bean class="com.bigrez.admin.web.PropertyRatesForm"/>
+        </property>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+     </bean>
+     
+     <bean id="propertyRateController" 
+     	   class="com.bigrez.admin.web.PropertyRateController">
+    	<property name="formView" value="propertyrate"/>
+    	<property name="successView" value="redirect:propertyrates.do"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyRateForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyRateForm"/>   
+        <property name="propertyRateForm">
+           <bean class="com.bigrez.admin.web.PropertyRateForm"/>
+        </property>
+        <property name="sessionForm" value="true"/>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+    	<property name="validator"> 
+    	   <bean class="com.bigrez.admin.web.PropertyRateForm"/>
+    	</property>
+     </bean>
+     
+     <bean id="propertyAvailsController" 
+     	   class="com.bigrez.admin.web.PropertyAvailsController">
+    	<property name="formView" value="propertyavails"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyAvailsForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyAvailsForm"/>   
+        <property name="propertyAvailsForm">
+           <bean class="com.bigrez.admin.web.PropertyAvailsForm"/>
+        </property>
+    	<property name="reservationServices" ref="reservationServicesReference"/>   
+     </bean>
+     
+     <bean id="propertyAvailController" 
+     	   class="com.bigrez.admin.web.PropertyAvailController">
+    	<property name="formView" value="propertyavail"/>
+    	<property name="successView" value="redirect:propertyavails.do"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyAvailForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyAvailForm"/>   
+        <property name="propertyAvailForm">
+           <bean class="com.bigrez.admin.web.PropertyAvailForm"/>
+        </property>
+        <property name="sessionForm" value="true"/>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+    	<property name="reservationServices" ref="reservationServicesReference"/>   
+    	<property name="validator"> 
+    	   <bean class="com.bigrez.admin.web.PropertyAvailForm"/>
+    	</property>
+     </bean>
+
+     <bean id="propertyOffersController" 
+     	   class="com.bigrez.admin.web.PropertyOffersController">
+    	<property name="formView" value="propertyoffers"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyOffersForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyOffersForm"/>   
+        <property name="propertyOffersForm">
+           <bean class="com.bigrez.admin.web.PropertyOffersForm"/>
+        </property>
+     </bean>
+     
+     <bean id="propertyOfferController" 
+     	   class="com.bigrez.admin.web.PropertyOfferController">
+    	<property name="formView" value="propertyoffer"/>
+    	<property name="successView" value="redirect:propertyoffers.do"/>
+    	<property name="overridePropertyListView" value="redirect:propertylist.do"/>
+    	<property name="bindOnNewForm" value="true"/> 
+    	<property name="commandName" value="propertyOfferForm"/>
+    	<property name="commandClass" value="com.bigrez.admin.web.PropertyOfferForm"/>   
+        <property name="propertyOfferForm">
+           <bean class="com.bigrez.admin.web.PropertyOfferForm"/>
+        </property>
+        <property name="sessionForm" value="true"/>
+    	<property name="propertyServices" ref="propertyServicesReference"/>   
+    	<property name="validator"> 
+    	   <bean class="com.bigrez.admin.web.PropertyOfferForm"/>
+    	</property>
+     </bean>
+
+  <!-- Handler/Controller Mapping -->
+    
+     <bean id="handlerMapping" 
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+          <property name="interceptors">
+              <list>
+              	<ref bean="loggingViewInterceptor"/>
+              </list>
+          </property>
+          <property name="mappings">
+          	  <value>
+          	  	/login.do=loginController
+          	  	/propertylist.do=propertyListController
+          	  	/propertymain.do=propertyMainController
+          	  	/propertyrooms.do=propertyRoomsController
+          	  	/propertyroom.do=propertyRoomController
+          	  	/propertyrates.do=propertyRatesController
+          	  	/propertyrate.do=propertyRateController
+          	  	/propertyavails.do=propertyAvailsController
+          	  	/propertyavail.do=propertyAvailController
+          	  	/propertyoffers.do=propertyOffersController
+          	  	/propertyoffer.do=propertyOfferController
+          	  </value>
+          </property>
+     </bean>
+          
+  <!-- Interceptors -->
+	
+	<bean id="loggingViewInterceptor" 
+     	  class="com.bigrez.web.LoggingViewInterceptor">
+	</bean>
+   
+  <!-- Messages -->
+
+  	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    	<property name="basenames">
+    		<list>
+        		<value>errors</value>
+      		</list>
+    	</property>
+	</bean>
+	
+  <!-- Spring View Resolvers -->
+    
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>    
+  </bean>
+
+  <!-- Tiles Configuration -->
+  
+  <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+    <property name="definitions">
+      <list>
+        <value>/WEB-INF/tiles-config.xml</value>
+      </list>
+    </property>
+    <property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
+  </bean>
+
+</beans>

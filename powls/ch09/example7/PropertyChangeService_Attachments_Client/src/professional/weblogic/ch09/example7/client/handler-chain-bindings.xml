@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/javaee">
+	<handler-chains>
+		<handler-chain>
+			<handler>
+				<handler-class>professional.weblogic.ch09.example7.client.AddAttachmentSOAPHandler</handler-class>
+			</handler>
+		</handler-chain>
+	</handler-chains>
+</bindings>

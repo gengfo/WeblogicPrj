@@ -1,0 +1,3 @@
+TODO: benefit of setting column widths, nullable?
+TODO: missing Inventory => no controls, versus
+TODO: neutral exception for optimistic locking.

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="bigrez-domain" default="all">
+
+  <path id="additional.classpath" />
+
+  <import file="../etc/common-build.xml" />
+
+  <target name="do.compile" depends="common.do.compile">
+
+    <!-- Run the Kodo enhancer over our compiled classes.
+         Kodo will do automatic enhancement in most environments, e.g. if
+         annotated classes are deployed to WebLogic Server. However there
+         are advantages in explicitly enhancing classes during the
+         build process, including catching errors before deployment
+         time, speeding up deployment, and making it easier to use the classes
+         in other environments without having to specify the Kodo java agent.
+    -->
+
+    <taskdef name="kodoc"
+             classname="kodo.ant.PCEnhancerTask"
+             classpathref="wls.classpath"/>
+
+    <kodoc>
+      <classpath refid="build.classpath"/>
+      <config propertiesFile="${classes.dir}/META-INF/persistence.xml"/>
+      <fileset dir="${src.dir}">
+        <include name="**/*.java" />
+        <exclude name="**/JPAUtilties.java"/>
+      </fileset>
+    </kodoc>
+
+    <!-- This is the equivalent static weaving for TopLink. This requires
+         you to explicitly list your persistent classes in persistence.xml,
+         so we use the persistence.xml from the unit tests.
+      -->
+<!--
+    <taskdef name="weave"
+             classname="org.eclipse.persistence.tools.weaving.jpa.StaticWeaveAntTask"
+             classpathref="wls.classpath"/>
+
+    <weave source="${classes.dir}"
+           target="${classes.dir}"
+           persistenceinfo="${ant.file.common}/../unit-tests/src">
+        <classpath refid="build.classpath"/>
+    </weave>
+-->
+
+  </target>
+
+  <target name="initialize-database" description="Reset the database schema">
+    <input
+      message="Database will be re-initialized, continue?"
+      validargs="y,n"
+      addproperty="do.delete"/>
+
+    <condition property="do.abort">
+      <equals arg1="n" arg2="${do.delete}"/>
+    </condition>
+
+    <fail if="do.abort">Build aborted by user.</fail>
+
+    <sql driver="${database.driver}"
+         url="${database.url}"
+         userid="${database.user}"
+         password="${database.password}"
+         classpath="${env.WL_HOME}/server/lib/weblogic.jar"
+         onerror="continue">
+      <fileset dir="${etc.dir}" includes="bigrez.sql"/>
+    </sql>
+  </target>
+
+</project>

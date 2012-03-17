@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app xmlns:wls="http://www.bea.com/ns/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://www.bea.com/ns/weblogic/weblogic-web-app http://www.bea.com/ns/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+    <wls:weblogic-version>10.3</wls:weblogic-version>
+    <wls:security-role-assignment>
+        <wls:role-name>SAMLClients</wls:role-name>
+        <wls:principal-name>Ch11ProtectedUsers</wls:principal-name>
+    </wls:security-role-assignment>
+    <wls:context-root>SAMLSSOWebApp</wls:context-root>
+</wls:weblogic-web-app>

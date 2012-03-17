@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="java-project" default="deploy">
+	<property environment="env"/>
+
+	<target name="init">
+		<property file="../../local.properties"/>
+		<property file="build.properties"/>
+		<property name="SERVICE-NAME" value="PropertyUpdateRegister"/>
+		<property name="SERVICE-IMPL-FOLDER" value="professional/weblogic/ch09/example9/service"/>
+		<property name="SERVICE-IMPL-JAVA-FILE" value="${SERVICE-IMPL-FOLDER}/${SERVICE-NAME}.java"/>
+		<property name="CALLBACK-GENERATED-PKG" value="professional.weblogic.ch09.example9.callback"/>
+		<basename property="APP-NAME" file="${basedir}"/>
+		<property name="APP-MODULE" value="${APP-NAME}.ear"/>
+		
+		<path id="CLASSPATH">
+			<pathelement path="build/classes"/>
+			<pathelement path="${env.WL_HOME}/server/lib/weblogic.jar"/>
+			<pathelement path="tmp/generated_client.jar"/>
+		</path>
+		
+		<taskdef name="wldeploy" classpathref="CLASSPATH" classname="weblogic.ant.taskdefs.management.WLDeploy"/>
+		<taskdef name="jwsc" classpathref="CLASSPATH" classname="weblogic.wsee.tools.anttasks.JwscTask"/>
+		<taskdef name="clientgen" classpathref="CLASSPATH" classname="weblogic.wsee.tools.anttasks.ClientGenTask"/>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete>
+			<fileset dir="build" includes="**/*.*"/>
+		</delete>
+		<delete dir="build/classes"/>
+		<delete dir="tmp"/>
+	</target>
+
+	<target name="generate" depends="init">
+		<delete dir="tmp"/>
+		<clientgen wsdl="${callback.wsdl}" destDir="tmp/jarcontents" packageName="${CALLBACK-GENERATED-PKG}" classpathref="CLASSPATH" type="JAXWS" debug="on"/>
+		<javac srcdir="tmp/jarcontents" destdir="tmp/jarcontents" classpathref="CLASSPATH" debug="on" includes="**/*.java"/>
+		<jar destfile="tmp/generated_client.jar" basedir="tmp/jarcontents"/>
+		<delete dir="tmp/jarcontents"/>
+		<echo message="Generated Callback Java types and stub classes from WSDL into tmp/generated_client.jar archive"/>							
+	</target>
+
+	<target name="compile" depends="init">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" classpathref="CLASSPATH" debug="on" includes="**/*.java"/>
+	</target>	
+
+	<target name="package" depends="compile">
+		<delete file="build/${APP-MODULE}"/>
+		<mkdir dir="tmp/earcontents"/>
+		<jwsc srcdir="src" destdir="tmp/earcontents" classpathref="CLASSPATH" compiler="extJavac" keepGenerated="false" debug="on">
+			<jws file="${SERVICE-IMPL-JAVA-FILE}" contextpath="${APP-NAME}" type="JAXWS"/>
+		</jwsc>
+		<copy file="tmp/generated_client.jar" todir="tmp/earcontents/APP-INF/lib"/>
+		<ear destfile="build/${APP-MODULE}" appxml="tmp/earcontents/META-INF/application.xml">
+			<fileset dir="tmp/earcontents">
+				<exclude name="META-INF/application.xml" />
+			</fileset>
+		</ear>
+		<delete dir="tmp/earcontents"/>
+	</target>
+
+	<target name="deploy" depends="package">
+		<wldeploy action="deploy" upload="true" source="build/${APP-MODULE}" name="${APP-NAME}" user="${weblogic.user}" password="${weblogic.password}" adminurl="${weblogic.adminurl}" verbose="false" debug="false"/> 
+		<delete dir="config"/>
+		<echo message="Deployed Web Service. Path for WSDL and test client access is: http://host:port/${APP-NAME}/${SERVICE-NAME}"/>
+	</target>
+
+	<target name="undeploy" depends="init">
+		<wldeploy action="undeploy" name="${APP-NAME}" user="${weblogic.user}" password="${weblogic.password}" adminurl="${weblogic.adminurl}" verbose="false" debug="false"/>
+	</target>
+</project>

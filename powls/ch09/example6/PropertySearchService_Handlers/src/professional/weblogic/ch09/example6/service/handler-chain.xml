@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+	<handler-chain>
+		<handler>
+			<handler-class>professional.weblogic.ch09.example6.service.CheckMagicHeaderKeySOAPHandler</handler-class>
+		</handler>
+	</handler-chain>
+	<handler-chain>
+		<handler>
+			<handler-class>professional.weblogic.ch09.example6.service.SearchAuditorLogicalHandler</handler-class>
+		</handler>    
+	</handler-chain>
+</handler-chains>

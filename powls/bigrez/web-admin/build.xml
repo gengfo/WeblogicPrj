@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." name="bigrez-web-admin" default="all">
+
+  <path id="additional.classpath">
+    <path path="../domain/output/bigrez-domain.jar"/>
+    <path path="../services/output/bigrez-services.jar"/>
+    <path path="../web-common/output/bigrez-web-common.jar"/>
+  </path>
+
+  <import file="../etc/common-build.xml" />
+
+  <target name="do.package" depends="common.do.package">
+    <war webxml="WebContent/WEB-INF/web.xml"
+         warfile="${output.dir}/bigrez-web-admin.war"
+         manifest="WebContent/META-INF/MANIFEST.MF">
+      <zipfileset dir="WebContent"/>
+      <zipfileset dir="${output.dir}" includes="**/*.jar" prefix="WEB-INF/lib"/>
+    </war>
+
+    <delete dir="${output.dir}" includes="**/*.jar"/>
+  </target>
+
+</project>

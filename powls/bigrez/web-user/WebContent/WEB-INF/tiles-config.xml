@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+  
+  <definition name="offers" template="/WEB-INF/jsp/common/Offers.jsp" 
+  	preparer="com.bigrez.web.OffersPreparer"/>
+
+  <definition name="defaultLayout" template="/WEB-INF/jsp/common/DefaultLayout.jsp">
+    <put-attribute name="header" value="/WEB-INF/jsp/common/Header.jsp" />
+    <put-attribute name="topnav" value="/WEB-INF/jsp/common/TopNav.jsp" /> 
+    <put-attribute name="rezinfo" value="/WEB-INF/jsp/common/RezInfo.jsp" /> 
+    <put-attribute name="offers" value="offers" /> 
+    <put-attribute name="footer" value="/WEB-INF/jsp/common/Footer.jsp"/>
+  </definition>
+   
+  <definition name="home" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/Home.jsp"/>
+  </definition> 
+  
+  <definition name="login" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/Login.jsp"/>
+  </definition> 
+  
+  <definition name="viewprofile" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/ViewProfile.jsp"/>
+  </definition> 
+  
+  <definition name="chooseproperty" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertySearch.jsp"/>
+  </definition> 
+  
+  <definition name="propertylist" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/PropertyList.jsp"/>
+  </definition> 
+  
+  <definition name="viewproperty" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/ViewProperty.jsp"/>
+  </definition> 
+  
+  <definition name="selectdates" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/SelectDates.jsp"/>
+  </definition> 
+
+  <definition name="selectroomtype" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/SelectRoomType.jsp"/>
+  </definition>
+   
+  <definition name="guestinformation" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/GuestInformation.jsp"/>
+  </definition> 
+  
+  <definition name="reviewreservation" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/ReviewReservation.jsp"/>
+  </definition> 
+  
+  <definition name="thankyou" extends="defaultLayout">
+    <put-attribute name="body" value="/WEB-INF/jsp/ReservationThankYou.jsp"/>
+  </definition> 
+  
+</tiles-definitions>

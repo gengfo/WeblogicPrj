@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+
+  <display-name>BigRezWebAdministrationApp</display-name>
+  
+  <!-- define auditing filter to log all admin activity -->
+  <filter>
+    <filter-name>AuditFilter</filter-name>
+    <filter-class>com.bigrez.web.AuditFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuditFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+    <servlet-name>adminapp</servlet-name>
+    <servlet-class>
+       org.springframework.web.servlet.DispatcherServlet
+    </servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+     
+  <servlet-mapping>
+    <servlet-name>adminapp</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+     
+  <welcome-file-list>
+    <welcome-file>/propertylist.do</welcome-file>
+  </welcome-file-list>
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/NotFoundPage.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/jsp/ErrorPage.jsp</location>
+  </error-page>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Dispatcher Servlet</web-resource-name>
+      <url-pattern>*.do</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>bigrezadmin</role-name>
+    </auth-constraint>
+  </security-constraint>
+    
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.do</form-login-page>
+      <form-error-page>/login.do?error=true</form-error-page>
+    </form-login-config>
+  </login-config>
+    
+  <security-role>
+    <role-name>bigrezadmin</role-name>
+  </security-role>
+     
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/PropertyServices</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>com.bigrez.service.PropertyServices</local>
+    <ejb-link>PropertyServicesImpl</ejb-link>
+  </ejb-local-ref> 
+     
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/ReservationServices</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>com.bigrez.service.ReservationServices</local>
+    <ejb-link>ReservationServicesImpl</ejb-link>
+  </ejb-local-ref> 
+          
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/ProfileServices</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>com.bigrez.service.ProfileServices</local>
+    <ejb-link>ProfileServicesImpl</ejb-link>
+  </ejb-local-ref> 
+
+</web-app>

@@ -1,0 +1,46 @@
+<project name="professional.weblogic.ch11.examples.rdbmsplugin" basedir="." default="build">
+
+	<taskdef name="wlserver" classname="weblogic.ant.taskdefs.management.WLServer"/>
+	<taskdef name="wldeploy" classname="weblogic.ant.taskdefs.management.WLDeploy"/>
+	<property environment="env"/>
+	<property file="local.properties"/>
+	
+	<path id="examples.class.path">
+			<pathelement path="build/bin"/>
+			<pathelement path="${env.BEA_HOME}/wlserver_10.3/server/lib/weblogic.jar"/>
+		</path>
+	
+	<target name="build">
+		
+		<javac destdir="build/bin" srcdir="src" includes="**/rdbmsplugin/**">
+		</javac>
+
+		<jar destfile="build/domains/domainA/lib/exampleRDBMSPlugin.jar" basedir="build/bin" includes="**/rdbmsplugin/**"/>
+		
+		<sql driver="${rdbms.driver}" password="${rdbms.password}" url="${rdbms.url}" userid="${rdbms.user}" src="${scripts.dir}/RDBMSPlugin/rdbms.sql" onerror="continue"/>
+		<wlst filename="${scripts.dir}/RDBMSPlugin/setupRDBMSProvider.py" 
+		 arguments="weblogic welcome1 t3://localhost:${domainA.port.http} ${rdbms.url} ${rdbms.driver} ${rdbms.password} ${rdbms.user} "/>
+		
+		<antcall target="add-provider-to-realm">
+			<param name="realmName" value="myrealm"/>
+		</antcall>
+		
+		<antcall target="add-provider-to-realm">
+			<param name="realmName" value="CustomRoles"/>
+		</antcall>
+		
+		<antcall target="add-provider-to-realm">
+			<param name="realmName" value="CustomRolesAndPolicies"/>
+		</antcall>
+		
+	</target>
+	
+	<target name="add-provider-to-realm">
+	
+		<wlst filename="${scripts.dir}/RDBMSPlugin/configureRealm.py" 
+				 arguments="weblogic welcome1 t3://localhost:${domainA.port.http} ${realmName}"/>
+				
+	
+	</target>
+
+</project>

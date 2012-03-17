@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="bigrez" default="all">
+
+  <property file="etc/local.properties"/>
+
+  <target name="all" description="Build everything">
+    <ant dir="domain"/>
+    <ant dir="services"/>
+    <ant dir="web-common"/>
+    <ant dir="web-user"/>
+    <ant dir="web-admin"/>
+    <ant dir="unit-tests"/>
+    <ant dir="webservices"/>
+    <ant dir="ear"/>
+  </target>
+
+  <target name="deploy" description="Deploy the EAR">
+    <ant dir="ear" target="deploy"/>
+  </target>
+
+  <target name="redeploy" description="Redeploy the EAR">
+    <ant dir="ear" target="redeploy"/>
+  </target>
+
+  <target name="undeploy" description="Undeploy the EAR">
+    <ant dir="ear" target="undeploy"/>
+  </target>
+
+  <target name="initialize-database" description="Reset the database schema">
+    <ant dir="domain" target="initialize-database"/>
+  </target>
+
+</project>
