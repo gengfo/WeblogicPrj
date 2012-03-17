@@ -4,11 +4,11 @@
 
 	<target name="init">
 		<property file="build.common.properties"/>
-		<property name="SERVICE-NAME" value="HelloService"/>
+		<property name="SERVICE-NAME" value="CheckThreadWebService"/>
 		
-		<property name="SERVICE-IMPL-FOLDER" value="mypack"/>
+		<property name="SERVICE-IMPL-FOLDER" value="mypack/service"/>
 		<property name="SERVICE-IMPL-JAVA-FILE" value="${SERVICE-IMPL-FOLDER}/${SERVICE-NAME}.java"/>
-		<basename property="APP-NAME" file="${basedir}"/>
+		<basename property="APP-NAME" file="CheckThreadWebService"/>
 		<property name="APP-MODULE" value="${APP-NAME}.ear"/>
 		
 		<path id="CLASSPATH">

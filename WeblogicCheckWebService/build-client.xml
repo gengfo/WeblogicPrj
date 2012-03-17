@@ -5,9 +5,9 @@
 	<target name="init">
 		<property file="build.common.properties"/>
 		<property file="build-client.properties"/>
-		<property name="SERVICE-GENERATED-PKG" value="mypack.client"/>
-		<property name="SERVICE-CLIENT_CLASS" value="mypack.HelloServiceClient"/>
-		<basename property="APP-NAME" file="${basedir}"/>
+		<property name="SERVICE-GENERATED-PKG" value="mypack.client.proxy"/>
+		<property name="SERVICE-CLIENT_CLASS" value="mypack.client.CheckThreadWebServiceClient"/>
+		<basename property="APP-NAME" file="CheckThreadWebService"/>
 		<property name="APP-MODULE" value="${APP-NAME}.jar"/>
 		
 		<path id="CLASSPATH">
@@ -63,6 +63,6 @@
 	</target>
 	
 	<target name="run-directly" depends = "init">
-		<java classname="${SERVICE-CLIENT_CLASS}" classpath="E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/GengFoEchoHello/tmp/generated_client.jar;E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/GengFoEchoHello/bin;${env.WL_HOME}/server/lib/weblogic.jar" fork="true" failonerror="true"/>
+		<java classname="${SERVICE-CLIENT_CLASS}" classpath="E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/WeblogicCheckWebService/tmp/generated_client.jar;E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/WeblogicCheckWebService/bin;${env.WL_HOME}/server/lib/weblogic.jar" fork="true" failonerror="true"/>
 	</target>
 </project>

@@ -1,5 +1,5 @@
 
-package mypack;
+package mypack.client.proxy;
 
 
 
@@ -9,7 +9,7 @@ package mypack;
  * Generated source version: 2.1
  * 
  */
-public interface HelloServiceAsyncHandler {
+public interface CheckThreadWebServiceAsyncHandler {
 
 
 }

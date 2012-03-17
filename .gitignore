@@ -1,11 +1,11 @@
+#*.classpath
+#*.project
 target
 dist
 *.bak
 .settings
 .myeclipse
 .mymetadata
-*.classpath
-*.project
 bin
 .springBeans
 classes

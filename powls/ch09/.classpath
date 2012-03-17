@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="example1/PropertySearchService_CodeFirst/src"/>
+	<classpathentry kind="src" path="example10/PropertySearchService_BasicSecurity_Client/src"/>
+	<classpathentry kind="src" path="example10/PropertySearchService_BasicSecurity/src"/>
+	<classpathentry kind="src" path="example10/PropertySearchService_SSLCerts_Client/src"/>
+	<classpathentry kind="src" path="example10/PropertySearchService_SSLCerts/src"/>
+	<classpathentry kind="src" path="example11/PropertySearchService_WSSecurityUserToken_Client/src"/>
+	<classpathentry kind="src" path="example11/PropertySearchService_WSSecurityUserToken/src"/>
+	<classpathentry kind="src" path="example12/PropertySearchService_WSSecurityFull_Client/src"/>
+	<classpathentry kind="src" path="example12/PropertySearchService_WSSecurityFull_WebClient/src"/>
+	<classpathentry kind="src" path="example12/PropertySearchService_WSSecurityFull/src"/>
+	<classpathentry kind="src" path="example2/PropertySearchService_WSDLFirst/src"/>
+	<classpathentry kind="src" path="example3/PropertySearchService_Client/src"/>
+	<classpathentry kind="src" path="example3/PropertySearchService_Client/tmp/jarcontents"/>
+	<classpathentry kind="src" path="example4/PropertyChangeService_DynamicSoapMsg_Client/src"/>
+	<classpathentry kind="src" path="example4/PropertyChangeService_DynamicSoapMsg/src"/>
+	<classpathentry kind="src" path="example5/PropertyChangeService_DynamicSource_Client/src"/>
+	<classpathentry kind="src" path="example5/PropertyChangeService_DynamicSource/src"/>
+	<classpathentry kind="src" path="example6/PropertySearchService_Handlers_Client/src"/>
+	<classpathentry kind="src" path="example6/PropertySearchService_Handlers/src"/>
+	<classpathentry kind="src" path="example7/PropertyChangeService_Attachments_Client/src"/>
+	<classpathentry kind="src" path="example7/PropertyChangeService_Attachments/src"/>
+	<classpathentry kind="src" path="example8/PropertySearchService_Stateful_Client/src"/>
+	<classpathentry kind="src" path="example8/PropertySearchService_Stateful/src"/>
+	<classpathentry kind="src" path="example9/PropertySearchService_Async_Client/src"/>
+	<classpathentry kind="src" path="example9/PropertySearchService_Async/src"/>
+	<classpathentry kind="src" path="example9/PropertyUpdateNotification_Callback_Client/src"/>
+	<classpathentry kind="src" path="example9/PropertyUpdateNotification_Callback_ClientReturn/src"/>
+	<classpathentry kind="src" path="example9/PropertyUpdateNotification_Callback/src"/>
+	<classpathentry kind="lib" path="example3/PropertySearchService_Client/build/PropertySearchService_Client.jar"/>
+	<classpathentry kind="lib" path="example3/PropertySearchService_Client/tmp/generated_client.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="example3/PropertySearchService_Client/tmp/jarcontents"/>
+</classpath>
