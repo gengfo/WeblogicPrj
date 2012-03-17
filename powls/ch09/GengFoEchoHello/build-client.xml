@@ -3,10 +3,10 @@
 	<property environment="env"/>
 
 	<target name="init">
-		<property file="../../local.properties"/>
-		<property file="build.properties"/>
-		<property name="SERVICE-GENERATED-PKG" value="professional.weblogic.ch09.example3.property"/>
-		<property name="SERVICE-CLIENT_CLASS" value="professional.weblogic.ch09.example3.client.PropertySearchClient"/>
+		<property file="../local.properties"/>
+		<property file="build-client.properties"/>
+		<property name="SERVICE-GENERATED-PKG" value="mypack.client"/>
+		<property name="SERVICE-CLIENT_CLASS" value="mypack.HelloServiceClient"/>
 		<basename property="APP-NAME" file="${basedir}"/>
 		<property name="APP-MODULE" value="${APP-NAME}.jar"/>
 		
@@ -63,6 +63,6 @@
 	</target>
 	
 	<target name="run-directly" depends = "init">
-		<java classname="${SERVICE-CLIENT_CLASS}" classpath="E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/example3/PropertySearchService_Client/tmp/generated_client.jar;E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/example3/PropertySearchService_Client/bin;${env.WL_HOME}/server/lib/weblogic.jar" fork="true" failonerror="true"/>
+		<java classname="${SERVICE-CLIENT_CLASS}" classpath="E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/GengFoEchoHello/tmp/generated_client.jar;E:/GengFo/MyProgs-Src/GitHub/WeblogicPrj/powls/ch09/GengFoEchoHello/bin;${env.WL_HOME}/server/lib/weblogic.jar" fork="true" failonerror="true"/>
 	</target>
 </project>

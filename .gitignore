@@ -12,4 +12,6 @@ classes
 *.jar
 *.war
 *.zip
+*.ear
 .metadata
+*.class

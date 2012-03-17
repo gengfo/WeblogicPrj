@@ -1,5 +1,9 @@
 package professional.weblogic.ch09.example3.client;
 
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+
 import professional.weblogic.ch09.example3.property.PropertyInfo;
 import professional.weblogic.ch09.example3.property.PropertySearchAddress;
 import professional.weblogic.ch09.example3.property.PropertySearchService;
@@ -24,14 +28,14 @@ public class PropertySearchClient {
 		PropertySearchService_Service service = new PropertySearchService_Service();
 
 		// Exampe 2: Get service stub using a different URL for the WSDL
-		/*
-		URL wsdlURL = new URL("http://localhost:7001/PropertySearchService_WSDLFirst/PropertySearchService?wsdl");
-		QName serviceQName = new QName("http://www.wrox.com/professional-weblogic/PropertySearchService", "PropertySearchService");
-		PropertySearchService_Service service = new PropertySearchService_Service(wsdlURL, serviceQName);
-		*/
+		
+		//URL wsdlURL = new URL("http://localhost:9999/PropertySearchService_WSDLFirst/PropertySearchService?wsdl");
+		//QName serviceQName = new QName("http://www.wrox.com/professional-weblogic/PropertySearchService", "PropertySearchService");
+		//PropertySearchService_Service service = new PropertySearchService_Service(wsdlURL, serviceQName);
+		
 
 		// Get service port
-		PropertySearchService port = service.getPropertySearchServiceImplPort();
+		PropertySearchService port = service.getPropertySearchServicePort();
 
 		// Example: Change the URL of the actual service's endpoint to invoke
 		//Map<String, Object> rc = ((BindingProvider) port).getRequestContext();

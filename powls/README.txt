@@ -61,7 +61,7 @@ Common pre-requisites
    This will set the following environment variables upon which the
    build scripts depend:
 
-     JAVA_HOME   - location of a Java SE 6 Java installation.
+     JAVA_HOME   - location of a Java SE 6 Java installation.	
      ANT_HOME    - an ANT installation.
      PATH        - must include the Java and Ant bin directories.
      DOMAIN_HOME - location of your domain directory.
