@@ -1,0 +1,224 @@
+5224:
+
+===== FULL THREAD DUMP ===============
+Sun May 27 09:43:00 2012
+Oracle JRockit(R) R28.1.1-14-139783-1.6.0_22-20101206-0241-windows-ia32
+
+"(Signal Handler)" id=2 idx=0x8 tid=2692 prio=5 alive, native_blocked, daemon
+
+"(OC Main Thread)" id=3 idx=0xc tid=2688 prio=5 alive, native_waiting, daemon
+
+"(GC Worker Thread 1)" id=? idx=0x10 tid=5856 prio=5 alive, daemon
+
+"(GC Worker Thread 2)" id=? idx=0x14 tid=5852 prio=5 alive, daemon
+
+"(Code Generation Thread 1)" id=4 idx=0x18 tid=3060 prio=5 alive, native_waiting, daemon
+
+"(Code Optimization Thread 1)" id=5 idx=0x1c tid=4676 prio=5 alive, native_waiting, daemon
+
+"(VM Periodic Task)" id=6 idx=0x20 tid=5932 prio=10 alive, native_blocked, daemon
+
+"(Attach Listener)" id=7 idx=0x24 tid=5712 prio=5 alive, daemon
+
+"Finalizer" id=8 idx=0x28 tid=3876 prio=8 alive, native_waiting, daemon
+    at jrockit/memory/Finalizer.waitForFinalizees(J[Ljava/lang/Object;)I(Native Method)
+    at jrockit/memory/Finalizer.access$700(Finalizer.java:12)
+    at jrockit/memory/Finalizer$4.run(Finalizer.java:189)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Reference Handler" id=9 idx=0x2c tid=5872 prio=10 alive, native_waiting, daemon
+    at java/lang/ref/Reference.waitForActivatedQueue(J)Ljava/lang/ref/Reference;(Native Method)
+    at java/lang/ref/Reference.access$100(Reference.java:11)
+    at java/lang/ref/Reference$ReferenceHandler.run(Reference.java:82)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"(Sensor Event Thread)" id=10 idx=0x30 tid=2632 prio=5 alive, native_blocked, daemon
+
+"VM JFR Buffer Thread" id=11 idx=0x34 tid=5876 prio=5 alive, in native, daemon
+
+"Worker-0" id=12 idx=0x38 tid=4712 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/Request.execute()V(Unknown Source)
+    at gengfo/worker/WorkerThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Worker-1" id=13 idx=0x3c tid=6092 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/Request.execute()V(Unknown Source)
+    at gengfo/worker/WorkerThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Worker-2" id=14 idx=0x40 tid=5780 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/Request.execute()V(Unknown Source)
+    at gengfo/worker/WorkerThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Worker-3" id=15 idx=0x44 tid=740 prio=5 alive, waiting, native_blocked
+    -- Waiting for notification on: gengfo/worker/Channel@0x024D0D30[fat lock]
+    at jrockit/vm/Threads.waitForNotifySignal(JLjava/lang/Object;)Z(Native Method)
+    at java/lang/Object.wait(J)V(Native Method)
+    at java/lang/Object.wait(Object.java:485)
+    at gengfo/worker/Channel.takeRequest()Lgengfo/worker/Request;(Unknown Source)
+    ^-- Lock released while waiting: gengfo/worker/Channel@0x024D0D30[fat lock]
+    at gengfo/worker/WorkerThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Worker-4" id=16 idx=0x48 tid=3912 prio=5 alive, waiting, native_blocked
+    -- Waiting for notification on: gengfo/worker/Channel@0x024D0D30[fat lock]
+    at jrockit/vm/Threads.waitForNotifySignal(JLjava/lang/Object;)Z(Native Method)
+    at java/lang/Object.wait(J)V(Native Method)
+    at java/lang/Object.wait(Object.java:485)
+    at gengfo/worker/Channel.takeRequest()Lgengfo/worker/Request;(Unknown Source)
+    ^-- Lock released while waiting: gengfo/worker/Channel@0x024D0D30[fat lock]
+    at gengfo/worker/WorkerThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Alice" id=17 idx=0x4c tid=5644 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/ClientThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Bobby" id=18 idx=0x50 tid=5408 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/ClientThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"Chris" id=19 idx=0x54 tid=4452 prio=5 alive, sleeping, native_waiting
+    at java/lang/Thread.sleep(J)V(Native Method)
+    at gengfo/worker/ClientThread.run()V(Unknown Source)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"attached" id=20 idx=0x58 tid=4176 prio=5 alive, native_waiting, daemon
+
+"JMAPI event thread" id=22 idx=0x5c tid=2292 prio=5 alive, in native, daemon
+
+"JFR request timer" id=23 idx=0x60 tid=4432 prio=5 alive, waiting, native_blocked, daemon
+    -- Waiting for notification on: java/util/TaskQueue@0x02538410[fat lock]
+    at jrockit/vm/Threads.waitForNotifySignal(JLjava/lang/Object;)Z(Native Method)
+    at java/lang/Object.wait(J)V(Native Method)
+    at java/lang/Object.wait(Object.java:485)
+    at java/util/TimerThread.mainLoop(Timer.java:483)
+    ^-- Lock released while waiting: java/util/TaskQueue@0x02538410[fat lock]
+    at java/util/TimerThread.run(Timer.java:462)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"RMI TCP Accept-0" id=25 idx=0x64 tid=492 prio=5 alive, in native, daemon
+    at java/net/PlainSocketImpl.socketAccept(Ljava/net/SocketImpl;)V(Native Method)
+    at java/net/PlainSocketImpl.accept(PlainSocketImpl.java:390)
+    ^-- Holding lock: java/net/SocksSocketImpl@0x02595380[biased lock]
+    at java/net/ServerSocket.implAccept(ServerSocket.java:453)
+    at java/net/ServerSocket.accept(ServerSocket.java:421)
+    at oracle/jrockit/management/server/LocalJMXConnector$LocalRMIServerSocketFactory$1.accept(LocalJMXConnector.java:96)
+    at sun/rmi/transport/tcp/TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:369)
+    at sun/rmi/transport/tcp/TCPTransport$AcceptLoop.run(TCPTransport.java:341)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"RMI TCP Connection(6)-192.168.1.3" id=26 idx=0x68 tid=6060 prio=5 alive, in native, daemon
+    at jrockit/net/SocketNativeIO.readBytesPinned(Ljava/io/FileDescriptor;[BIII)I(Native Method)
+    at jrockit/net/SocketNativeIO.socketRead(SocketNativeIO.java:32)
+    at java/net/SocketInputStream.socketRead0(Ljava/io/FileDescriptor;[BIII)I(SocketInputStream.java)
+    at java/net/SocketInputStream.read(SocketInputStream.java:129)
+    at java/io/BufferedInputStream.fill(BufferedInputStream.java:218)
+    at java/io/BufferedInputStream.read(BufferedInputStream.java:237)
+    ^-- Holding lock: java/io/BufferedInputStream@0x0378EFB0[biased lock]
+    at java/io/FilterInputStream.read(FilterInputStream.java:66)
+    at sun/rmi/transport/tcp/TCPTransport.handleMessages(TCPTransport.java:517)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"RMI Scheduler(0)" id=27 idx=0x6c tid=796 prio=5 alive, parked, native_blocked, daemon
+    at jrockit/vm/Locks.park0(J)V(Native Method)
+    at jrockit/vm/Locks.park(Locks.java:2230)
+    at sun/misc/Unsafe.park(ZJ)V(Native Method)
+    at java/util/concurrent/locks/LockSupport.parkNanos(LockSupport.java:198)
+    at java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2025)
+    at java/util/concurrent/DelayQueue.take(DelayQueue.java:164)
+    at java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:609)
+    at java/util/concurrent/ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:602)
+    at java/util/concurrent/ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:947)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:907)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"JMX server connection timeout 28" id=28 idx=0x70 tid=5328 prio=5 alive, waiting, native_blocked, daemon
+    -- Waiting for notification on: [I@0x024E0B20[fat lock]
+    at jrockit/vm/Threads.waitForNotifySignal(JLjava/lang/Object;)Z(Native Method)
+    at java/lang/Object.wait(J)V(Native Method)
+    at java/lang/Object.wait(Object.java:485)
+    at com/sun/jmx/remote/internal/ServerCommunicatorAdmin$Timeout.run(ServerCommunicatorAdmin.java:132)
+    ^-- Lock released while waiting: [I@0x024E0B20[fat lock]
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"RMI TCP Connection(2)-192.168.1.3" id=29 idx=0x74 tid=3108 prio=5 alive, waiting, native_blocked, daemon
+    -- Waiting for notification on: com/sun/jmx/remote/internal/ArrayNotificationBuffer@0x024E4670[fat lock]
+    at jrockit/vm/Threads.waitForNotifySignal(JLjava/lang/Object;)Z(Native Method)
+    at java/lang/Object.wait(J)V(Native Method)
+    at com/sun/jmx/remote/internal/ArrayNotificationBuffer.fetchNotifications(ArrayNotificationBuffer.java:417)
+    ^-- Lock released while waiting: com/sun/jmx/remote/internal/ArrayNotificationBuffer@0x024E4670[fat lock]
+    at com/sun/jmx/remote/internal/ArrayNotificationBuffer$ShareBuffer.fetchNotifications(ArrayNotificationBuffer.java:209)
+    at com/sun/jmx/remote/internal/ServerNotifForwarder.fetchNotifs(ServerNotifForwarder.java:258)
+    at javax/management/remote/rmi/RMIConnectionImpl$2.run(RMIConnectionImpl.java:1227)
+    at javax/management/remote/rmi/RMIConnectionImpl$2.run(RMIConnectionImpl.java:1225)
+    at javax/management/remote/rmi/RMIConnectionImpl.fetchNotifications(RMIConnectionImpl.java:1231)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    at jrockit/vm/Reflect.invokeMethod(Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;(Native Method)
+    at sun/reflect/NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;(Native Method)
+    at sun/reflect/NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+    at sun/reflect/DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+    at java/lang/reflect/Method.invoke(Method.java:597)
+    at sun/rmi/server/UnicastServerRef.dispatch(UnicastServerRef.java:305)
+    at sun/rmi/transport/Transport$1.run(Transport.java:159)
+    at jrockit/vm/AccessController.doPrivileged(AccessController.java:254)
+    at sun/rmi/transport/Transport.serviceCall(Transport.java:155)
+    at sun/rmi/transport/tcp/TCPTransport.handleMessages(TCPTransport.java:535)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+"RMI TCP Connection(4)-192.168.1.3" id=31 idx=0x7c tid=4732 prio=5 alive, in native, daemon
+    at jrockit/net/SocketNativeIO.readBytesPinned(Ljava/io/FileDescriptor;[BIII)I(Native Method)
+    at jrockit/net/SocketNativeIO.socketRead(SocketNativeIO.java:32)
+    at java/net/SocketInputStream.socketRead0(Ljava/io/FileDescriptor;[BIII)I(SocketInputStream.java)
+    at java/net/SocketInputStream.read(SocketInputStream.java:129)
+    at java/io/BufferedInputStream.fill(BufferedInputStream.java:218)
+    at java/io/BufferedInputStream.read(BufferedInputStream.java:237)
+    ^-- Holding lock: java/io/BufferedInputStream@0x0324CAB0[biased lock]
+    at java/io/FilterInputStream.read(FilterInputStream.java:66)
+    at sun/rmi/transport/tcp/TCPTransport.handleMessages(TCPTransport.java:517)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run0(TCPTransport.java:790)
+    at sun/rmi/transport/tcp/TCPTransport$ConnectionHandler.run(TCPTransport.java:649)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+    at java/util/concurrent/ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+    at java/lang/Thread.run(Thread.java:662)
+    at jrockit/vm/RNI.c2java(IIIII)V(Native Method)
+    -- end of trace
+
+===== END OF THREAD DUMP ===============
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<project default="main">
+
+    <property name="src" location="../src/main/java" />
+    <property name="output" location="bin" />
+    <property environment="env" />
+
+    <target name="main" depends="init, compile, run">
+        <echo>
+            Building and running....
+        </echo>
+    </target>
+  
+    <target name="init">
+        <mkdir dir="${output}" />
+    </target>
+  
+    <target name="compile">
+        <javac srcdir="${src}" destdir="${output}" includeantruntime="false"/>
+    </target>
+  
+    <target name="run">
+        <java classname="gengfo.jrockit.HelloWorld"
+            fork="true" >
+            <classpath>
+               <pathelement location="${output}"/>
+            </classpath>
+            <jvmarg value="-Xverbose:gc" />
+        	<jvmarg value="-Djrockit.ctrlbreak.enablerun_class=true" />
+        </java>
+    </target>
+	
+</project>
