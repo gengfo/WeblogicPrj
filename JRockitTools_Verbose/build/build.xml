@@ -26,7 +26,10 @@
                <pathelement location="${output}"/>
             </classpath>
             <jvmarg value="-Xverbose:gc" />
-        	<jvmarg value="-Djrockit.ctrlbreak.enablerun_class=true" />
+            <jvmarg value="-XX:+FlightRecorder" />
+            <jvmarg value="-XX:FlightRecorderOptions=disk=true,maxchunksize=10M,dumponexit=true,dumponexitpath=path" />
+            <jvmarg value="-XX:StartFlightRecording=filename=test.jfr" />
+            <jvmarg value="-Djrockit.ctrlbreak.enablerun_class=true" />
         </java>
     </target>
 	
