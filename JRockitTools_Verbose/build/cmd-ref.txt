@@ -1,0 +1,9 @@
+-Xms2048m -Xmx2048m  -verbose:gc -Dtangosol.coherence.mode=prod  -Dtangosol.coherence.machine=146.222.65.160 -Dtangosol.coherence.member=ARP.CM.STR.2  -Dcom.sun.management.jmxremote -Dtangosol.coherence.localhost=146.222.65.160 -Dtangosol.coherence.localport=9203  -Dtangosol.coherence.override=/home/arpstress/arp/cohgridServer/config/tangosol-coherence-override.xml  -Dtangosol.coherence.cacheconfig=/home/arpstress/arp/cohgridServer/config/arp-cache-config.xml  -Dtangosol.coherence.management=none  -Dtangosol.coherence.management.remote=true  -Dcom.sun.management.jmxremote.port=16203  -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false  -Dtangosol.coherence.distributed.localstorage=false  -Dtoplink.xml.platform=oracle.toplink.platform.xml.jaxp.JAXPPlatform  -Xdebug  -Xnoagent  -Djava.compiler=NONE -Duser.timezone=Asia/Shanghai -XX:+HeapDumpOnOutOfMemoryError   -XX:HeapDumpPath=/home/arpstress/arp/arpServer/hprof-dumps
+
+
+java gengfo.jrockit.RemoteJRCMD -command start_flightrecording name=myrecording filename=c:\tmp\myrecording.jfr duration=30s -host=192.168.1.8 -port=16203 2>out.log 1>err.log
+
+名称	状态	开始时间	持续时间(ms)	剩余(ms)	标识符
+localhost:16203			N/A	N/A	
+
+java gengfo.jrockit.RemoteJRCMD1 localhost 16203 help

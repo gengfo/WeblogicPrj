@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<project default="main">
+
+    <property name="src" location="../src/main/java" />
+    <property name="output" location="bin" />
+    <property environment="env" />
+
+    <target name="main" depends="init, compile, run">
+        <echo>
+            Building and running....
+        </echo>
+    </target>
+  
+    <target name="init">
+        <mkdir dir="${output}" />
+    </target>
+  
+    <target name="compile">
+        <javac srcdir="${src}" destdir="${output}" includeantruntime="false"/>
+    </target>
+  
+    <target name="run" depends ="compile">
+    
+    	<property name = "cmd" value="-host=localhost -port=16203 -command=help" />
+    	
+        <java classname="gengfo.jrockit.RemoteJRCMD1" fork="true" >
+            
+            <classpath>
+               <pathelement location="${output}"/>
+            </classpath>
+                    
+              <!--
+              
+              <jvmarg value="help"/>
+              -->
+            <!--
+            <arg value="-host localhost -port 16203 -command start_flightrecording name=myrecording duration=30s filename=gengfo.jfr"/>
+            -->
+            <!-- <jvmarg value="-Xrunhprof:cpu=samples,file=log.txt,depth=3"/>-->
+            <!--
+            <jvmarg value="-host localhost -port 16203 -command start_flightrecording name=myrecording duration=30s filename=gengfo.jfr"/>
+		-->
+		
+		<!--
+		<jvmarg value="${cmd}"/>
+		-->
+		<!--
+            
+            <jvmarg value="-host"/>
+             <jvmarg value="localhost"/>
+            <jvmarg value="-port"/>
+            <jvmarg value="16203"/>
+            <jvmarg value="-command"/>
+            <jvmarg value="help"/>
+            -->
+            <!--
+            <jvmarg value="start_flightrecording filename=gengfo.jfr duration=30s"/>
+          	-->
+        </java>
+    </target>
+	
+</project>
