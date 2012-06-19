@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<project default="main">
+
+    <property name="src" location="../src/main/java" />
+    <property name="output" location="bin" />
+    <property environment="env" />
+
+    <target name="main" depends="init, compile, run">
+        <echo>
+            Building and running....
+        </echo>
+    </target>
+  
+    <target name="init">
+        <mkdir dir="${output}" />
+    </target>
+  
+    <target name="compile">
+        <javac srcdir="${src}" destdir="${output}" includeantruntime="false"/>
+    </target>
+  
+    <target name="run">
+        <java 
+        	classname="gengfo.jvm.HelloWorld"
+        	jvm="C:/Program Files/Java/jdk1.6.0_21/bin/java"
+        	fork="true" >
+            <classpath>
+               <pathelement location="${output}"/>
+            </classpath>
+            <!--
+            <jvmarg value="-Xverbose:gc" />
+            <jvmarg value="-XX:+FlightRecorder" />
+            <jvmarg value="-XX:FlightRecorderOptions=disk=true,maxchunksize=10M,dumponexit=true,dumponexitpath=path" />
+            <jvmarg value="-XX:StartFlightRecording=filename=test.jfr" />
+            <jvmarg value="-Djrockit.ctrlbreak.enablerun_class=true" />
+            -->
+        </java>
+    </target>
+	
+</project>
