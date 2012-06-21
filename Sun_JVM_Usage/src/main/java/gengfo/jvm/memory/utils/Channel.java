@@ -1,4 +1,4 @@
-package gengfo.worker;
+package gengfo.jvm.memory.utils;
 
 public class Channel {
     private static final int MAX_REQUEST = 100;

@@ -22,7 +22,7 @@
   
     <target name="run" >
         <java
-        	classname="gengfo.jvm.memory.HelloWorldMem"
+        	classname="gengfo.jvm.thread.HelloWorldThread"
         	jvm="C:/Program Files/Java/jdk1.6.0_11/bin/java" fork="true"
         	>
         	

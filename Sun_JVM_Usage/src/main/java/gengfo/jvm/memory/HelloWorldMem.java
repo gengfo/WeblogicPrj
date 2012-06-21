@@ -1,9 +1,13 @@
-package gengfo.jvm;
+package gengfo.jvm.memory;
 
-import gengfo.worker.Channel;
-import gengfo.worker.ClientThread;
+import gengfo.jvm.memory.utils.Channel;
+import gengfo.jvm.memory.utils.ClientThread;
 
-public class HelloWorld {
+
+
+
+
+public class HelloWorldMem {
 	
 	public static void main(String args[]){
 		
