@@ -2,7 +2,7 @@ package gengfo.worker;
 
 public class MemBlock {
 
-	private String bigStr;
+	public final String[] memBlock;
 
 	public MemBlock(String aString) {
 		this.bigStr = aString;
