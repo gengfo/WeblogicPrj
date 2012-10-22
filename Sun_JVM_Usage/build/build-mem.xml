@@ -21,9 +21,11 @@
     </target>
   
     <target name="run" >
+    	<!--  jdk 6 C:/Program Files/Java/jdk1.6.0_11/bin/java-->
+    	<!--  jdk 5 C:/Program Files/java/jdk1.5.0_15/bin/java-->
         <java
         	classname="gengfo.jvm.memory.HelloWorldMem"
-        	jvm="C:/Program Files/Java/jdk1.6.0_11/bin/java" fork="true"
+        	jvm="C:/Program Files/java/jdk1.5.0_15/bin/java" fork="true"
         	>
         	
             	<classpath>
@@ -41,14 +43,31 @@
             <!--
             <jvmarg value="-verbose:gc"/> 
             -->
-            
+            <!--
             <jvmarg value="-XX:+PrintGCDetails"/>
-                        
+            -->
+            
+            <jvmarg value="-XX:+HeapDumpOnCtrlBreak"/>           
+            <jvmarg value="-XX:HeapDumpPath=java_oom.hprof" />
+             
+	    <!--		                        
+            <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
+            <jvmarg value="-XX:HeapDumpPath=java_oom.hprof" />
+            -->
             <!-- thread dump -->
             <!-- Ctrl+Break for Windows; kill -SIGQUIT <pid> for Unix;Java.lang.Thread.getAllStackTraces()-->
             <!-- -XX:-PrintClassHistogram -->
             
             <!-- heap dump -->
+            <!--
+            	http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6454676
+            	There are many ways to trigger a heap dump on demand in jdk6. For example, jconsole or any JMX tool can trigger a heap dump
+            	In older releases the only way to generate a heap dump is using the HPROF agent or using the jmap -heap:format=b option to recover a heap dump from a core file or process image. 
+            	
+            	Note, Java 6 does not have the HeapDumpOnCtrlBreak switch, you have to use the jmap tool to generate memory dumps.
+            	
+            -->
+            
             <!-- Ctrl+Break with -XX:+HeapDumpOnCtrlBreak option-->
             <!-- -Xrunhprof -agentlib:hprof=heap=dump,format=b-->
             <!--Trigger with any JMX tool for JVM6.0 -->
@@ -56,6 +75,7 @@
             <!--
             <jvmarg value="-verbose:gc" />
             <jvmarg value="-XX:+PrintGCDetails" />
+            
             <jvmarg value="-XX:+HeapDumpOnOutOfMemoryError" />
             <jvmarg value="-XX:HeapDumpPath=java_oom.hprof" />
             

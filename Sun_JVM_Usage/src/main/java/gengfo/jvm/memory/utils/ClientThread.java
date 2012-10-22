@@ -1,4 +1,4 @@
-package gengfo.worker;
+package gengfo.jvm.memory.utils;
 
 import java.util.Random;
 
