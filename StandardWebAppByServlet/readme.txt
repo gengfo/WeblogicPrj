@@ -1,1 +1,0 @@
-mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=gengfo.test -DartifactId=StandardWebAppByServlet

@@ -1,5 +1,5 @@
-#*.classpath
-#*.project
+*.classpath
+*.project
 target
 dist
 *.bak
@@ -15,3 +15,5 @@ classes
 *.ear
 .metadata
 *.class
+dist
+app_to_deploy

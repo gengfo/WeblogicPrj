@@ -1,0 +1,5 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee">
+  <welcome-file-list>
+    <welcome-file>hello.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

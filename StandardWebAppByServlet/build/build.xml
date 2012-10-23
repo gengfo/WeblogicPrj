@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project basedir="." default="deploy" name="Chapter 2 Examples">
+<project basedir="." default="deploy" name="StandardWebAppByServlet">
     
     <property environment="env"/>
     <property file="etc/local.properties"/>
@@ -8,16 +8,8 @@
     <!-- set global properties for this build -->
     <property name="src" value="${basedir}/src"/>
     <property name="lib" value="${basedir}/lib"/>
-    <property name="srcjava1" value="${src}/java/webapp1"/>
-    <property name="srcjava2" value="${src}/java/webapp2"/>
-    <property name="srcjava3" value="${src}/java/webapp3"/>
-    <property name="srcweb1" value="${src}/web1"/>
-    <property name="srcweb2" value="${src}/web2"/>
-    <property name="srcweb3" value="${src}/web3"/>
-    <property name="deploy.dir" value="${env.DOMAIN_HOME}/autodeploy"/>
-    <property name="webapp1.dir" value="${deploy.dir}/webapp1"/>
-    <property name="webapp2.dir" value="${deploy.dir}/webapp2"/>
-    <property name="webapp3.dir" value="${deploy.dir}/webapp3"/>
+	<property name="dist" value="${basedir}/build/dist"/>
+    <property name="deploy.dir" value="${basedir}/build/app_to_deploy"/>
     
     <!-- Set up the development classpath -->
     <path id="dev.classpath">
@@ -43,17 +35,13 @@
     
     <target name="makeapp">
         <!-- Make classes directories -->
-        <mkdir dir="${srcweb1}/WEB-INF/classes"/>
-        <mkdir dir="${srcweb2}/WEB-INF/classes"/>
-        <mkdir dir="${srcweb3}/WEB-INF/classes"/>
-        <!-- Make lib directories -->
-        <mkdir dir="${srcweb1}/WEB-INF/lib"/>
-        <mkdir dir="${srcweb2}/WEB-INF/lib"/>
-        <mkdir dir="${srcweb3}/WEB-INF/lib"/>
-        <!-- Move libs from common lib directory into WEB-INF/lib -->
+        <mkdir dir="${dist}/WEB-INF/classes"/>
+        <mkdir dir="${dist}/WEB-INF/lib"/>
         <copy todir="${srcweb1}/WEB-INF/lib">
             <fileset dir="${lib}" includes="log4j.jar"/>
         </copy>
+    	
+    	<!--
         <copy todir="${srcweb2}/WEB-INF/lib">
             <fileset dir="${lib}" includes="log4j.jar"/>
             <fileset dir="${lib}" includes="standard.jar"/>
@@ -68,22 +56,13 @@
             <fileset dir="${lib}" includes="commons*.jar"/>
             <fileset dir="${lib}" includes="spring*.jar"/>
         </copy>
+        -->
     </target>
                 
     <target name="compile">
         <javac deprecation="true" classpathref="dev.classpath" 
-            destdir="${srcweb1}/WEB-INF/classes" 
-            srcdir="${srcjava1}">
-            <include name="**/*.java"/>
-        </javac>
-        <javac deprecation="true" classpathref="dev.classpath" 
-            destdir="${srcweb2}/WEB-INF/classes" 
-            srcdir="${srcjava2}">
-            <include name="**/*.java"/>
-        </javac>
-        <javac deprecation="true" classpathref="dev.classpath" 
-            destdir="${srcweb3}/WEB-INF/classes" 
-            srcdir="${srcjava3}">
+            destdir="${dist}/WEB-INF/classes" 
+            srcdir="${src}">
             <include name="**/*.java"/>
         </javac>
     </target>
@@ -94,14 +73,6 @@
     <target name="jspc-webapps">
       <!-- Pre-compile webapp1 JSP pages to src/web1/WEB-INF/classes -->
       <wlappc source="${srcweb1}" 
-              classpathref="dev.classpath" verbose="true">
-      </wlappc>
-      <!-- Pre-compile webapp2 JSP pages to src/web2/WEB-INF/classes -->
-      <wlappc source="${srcweb2}" 
-                classpathref="dev.classpath" verbose="true">
-      </wlappc>
-      <!-- Pre-compile webapp3 JSP pages to src/web3/WEB-INF/classes -->
-      <wlappc source="${srcweb3}" 
               classpathref="dev.classpath" verbose="true">
       </wlappc>
     </target>
