@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5">
+	<display-name>StandardWebAppByServlet</display-name>
+	<module>
+		<web>
+			<web-uri>StandardWebApp</web-uri>
+			<context-root>WebApp</context-root>
+		</web>
+	</module>
+</application>
