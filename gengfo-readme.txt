@@ -1,5 +1,10 @@
 StandardWebAppByServlet
 
+20121104-我的收获：
+1. jrmcd -heap dupm 可以到处jvm
+2. 通过mat等工具查看对象具体值
+3. todo jmx 应该管理weblogic 以及jvm
+
 
 practice date: 20120908 at 科技馆
 ~ plan for JMS application usage combined with transaction framework

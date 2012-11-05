@@ -9,7 +9,7 @@ dist
 bin
 .springBeans
 classes
-*.jar
+#*.jar
 *.war
 *.zip
 *.ear

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir=".." default="all" name="StandardWebAppByServlet">
+
+	<property environment="env" />
+
+
+	<property name="src.dir" value="${basedir}/src/main/java" />
+	<property name="build.dir" value="${basedir}/build" />
+
+	<property file="${build.dir}/build.properties" />
+	<property name="res.dir" value="${basedir}/res" />
+
+	<path id="build.classpath">
+		<pathelement location="${res.dir}/ref-libs/servlet-api-2.5.jar" />
+
+	</path>
+
+	<target name="clean">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build.dir}/dist" />
+		</delete>
+	</target>
+
+	<target name="compile-app">
+		<mkdir dir="${build.dir}/dist/app-temp/classes" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}/dist/app-temp/classes" classpathref="build.classpath" debug="on" includes="**/*.java" />
+	</target>
+
+	<target name="make-app" depends="compile-app">
+		<!-- not build to jar -->
+	</target>
+
+
+	<target name="prepare-war" depends="make-app">
+		<!--
+		<mkdir dir="${build.dir}/dist/war-temp/${web-uri}/WEB-INF/classes" />
+		-->
+		<copy file="${res.dir}/ear-res/WEB-INF/web.xml" todir="${build.dir}/dist/ear-temp/${web-uri}/WEB-INF" overwrite="true" />
+		<replace file="${build.dir}/dist/ear-temp/${web-uri}/WEB-INF/web.xml">
+			<replacefilter token="%%WEB-DISPLAY-NAME%%" value="${web.display-name}" />
+			<replacefilter token="%%SERVLET-NAME%%" value="${servlet-name}" />
+			<replacefilter token="%%SERVLET-CLASS%%" value="${servlet-class}" />
+			<replacefilter token="%%URL-PATTERN%%" value="${url-pattern}" />
+		</replace>
+
+		<copy todir="${build.dir}/dist/war-temp/${web-uri}/WEB-INF/classes">
+			<fileset dir="${build.dir}/dist/app-temp/classes" includes="**/*" />
+		</copy>
+	</target>
+
+	<target name="make-war" depends="prepare-war">
+		<!-- do nothing -->
+	</target>
+
+	<target name="prepare-ear" depends="make-war">
+
+		<copy file="${res.dir}/ear-res/META-INF/application.xml" todir="${build.dir}/dist/ear-temp/META-INF" overwrite="true" />
+		<replace file="${build.dir}/dist/ear-temp/META-INF/application.xml">
+			<replacefilter token="%%APPLICATOIN-DISPLAY-NAME%%" value="${app.display-name}" />
+			<replacefilter token="%%WEB-URI%%" value="${web-uri}" />
+			<replacefilter token="%%CONTEXT-ROOT%%" value="${context-root}" />
+		</replace>
+
+		<copy todir="${build.dir}/dist/ear-temp/${web-uri}">
+			<fileset dir="${build.dir}/dist/war-temp/${web-uri}" />
+		</copy>
+
+	</target>
+
+	<target name="make-ear" depends="prepare-ear">
+
+	</target>
+
+
+	<target name="copy-to-deploy">
+		<copy todir="${build.dir}/${app.display-name}-to-deploy">
+			<fileset dir="${build.dir}/dist/ear-temp" />
+		</copy>
+	</target>
+
+	<target name="all" depends="prepare-ear">
+		<antcall target="clean" />
+		<antcall target="make-ear" />
+		<antcall target="copy-to-deploy" />
+	</target>
+
+
+
+</project>
+
