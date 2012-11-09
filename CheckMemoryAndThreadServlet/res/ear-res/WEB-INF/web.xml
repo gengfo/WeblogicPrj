@@ -6,15 +6,28 @@
 	<display-name>%%WEB-DISPLAY-NAME%%</display-name>
 	
 	<servlet>
-    		<servlet-name>%%SERVLET-NAME%%</servlet-name>
-    		<servlet-class>%%SERVLET-CLASS%%</servlet-class>
+    		<servlet-name>MemTest</servlet-name>
+    		<servlet-class>gengfo.mypack.servlet.mem.MemTestServlet</servlet-class>
     		<load-on-startup>1</load-on-startup> 
   	</servlet>
   	
   	<servlet-mapping>
-    		<servlet-name>%%SERVLET-NAME%%</servlet-name>
-    		<url-pattern>%%URL-PATTERN%%</url-pattern>
+    		<servlet-name>MemTest</servlet-name>
+    		<url-pattern>/MemTest</url-pattern>
   	</servlet-mapping>  
+  	
+  	
+  	<servlet>
+    		<servlet-name>ThreadTest</servlet-name>
+    		<servlet-class>gengfo.mypack.servlet.thread.ThreadTestServlet</servlet-class>
+    		<load-on-startup>1</load-on-startup> 
+  	</servlet>
+  	
+  	<servlet-mapping>
+    		<servlet-name>ThreadTest</servlet-name>
+    		<url-pattern>/ThreadTest</url-pattern>
+  	</servlet-mapping> 
+  	
   	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>

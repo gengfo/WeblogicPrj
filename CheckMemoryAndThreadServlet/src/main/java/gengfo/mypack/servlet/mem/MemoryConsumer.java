@@ -1,4 +1,4 @@
-package mypack.service;
+package gengfo.mypack.servlet.mem;
 
 public class MemoryConsumer {
 
